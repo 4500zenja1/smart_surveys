@@ -1,34 +1,48 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "survey")
 @Data
-@NoArgsConstructor
 public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "survey_title",nullable = false,length = 50)
+
+    @Column(name = "survey_title", nullable = false, length = 50)
     private String surveyTitle;
-    @Column(name = "survey_description",length = 200)
+
+    @Column(name = "survey_description", length = 200)
     private String surveyDescription;
+
     @Column(name = "anonymity")
-    private boolean anonymity;
-    @Column(name = "repeat_survey_interval",nullable = false,columnDefinition = "interval")
+    private Boolean anonymity;
+
+    @Column(name = "repeat_survey_interval", nullable = true, columnDefinition = "interval")
     private Duration interval;
-    @Column(name = "open_survey_date",nullable = false,columnDefinition = "timestamp")
-    private Date openSurveyDate;
-    @Column(name = "close_survey_date",nullable = false,columnDefinition = "timestamp")
-    private Date closeSurveyDate;
-    @Column(name = "close_survey_iterable_date",nullable = false,columnDefinition = "timestamp")
-    private Date closeSurveyIterableDate;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id",referencedColumnName = "id")
-    private User surveyAuthor;
+
+    @Column(name = "open_survey_date", nullable = false, columnDefinition = "timestamp")
+    private LocalDateTime openSurveyDate;
+
+    @Column(name = "close_survey_date", nullable = false, columnDefinition = "timestamp")
+    private LocalDateTime closeSurveyDate;
+
+    @Column(name = "close_survey_iterable_date", nullable = false, columnDefinition = "timestamp")
+    private LocalDateTime closeSurveyIterableDate;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private User author;
 }
