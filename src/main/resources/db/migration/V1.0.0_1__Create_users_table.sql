@@ -2,7 +2,7 @@
 CREATE TYPE public.role_enum AS ENUM
     ('USER', 'MODER', 'ADMIN');
 
-CREATE TABLE IF NOT EXISTS public."user"
+CREATE TABLE IF NOT EXISTS public."users"
 (
     id bigserial primary key,
     name character varying(50)  NOT NULL,

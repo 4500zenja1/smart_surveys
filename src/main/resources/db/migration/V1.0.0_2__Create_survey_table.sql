@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public."survey"
     survey_title character varying(50) NOT NULL,
     survey_description character varying(200) NOT NULL,
     anonymity boolean NOT NULL,
-    author_id bigint NOT NULL REFERENCES public."user" (id),
+    author_id bigint NOT NULL REFERENCES public."users" (id),
     repeat_survey_interval interval NOT NULL,
     open_survey_date timestamp NOT NULL,
     close_survey_date timestamp NOT NULL,

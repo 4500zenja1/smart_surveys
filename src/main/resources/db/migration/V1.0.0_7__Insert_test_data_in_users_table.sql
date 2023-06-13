@@ -1,4 +1,4 @@
-INSERT INTO public."user"(
+INSERT INTO public."users"(
 	id, name, email, password, role_type)
 	VALUES (1,'Danila','danya.strushko@mail.ru','qwerty123','MODER'),
 	       (2,'Sergey','sergey.let@gmail.com','passqwe111','ADMIN'),
