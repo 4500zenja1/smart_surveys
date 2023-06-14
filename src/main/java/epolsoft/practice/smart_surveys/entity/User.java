@@ -35,7 +35,4 @@ public class User {
     @Column(name = "role_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType role;
-
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private List<Survey> surveys = new ArrayList<>();
 }
