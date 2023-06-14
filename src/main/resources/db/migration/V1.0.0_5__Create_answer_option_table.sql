@@ -1,5 +1,7 @@
 -- Table: answer_option
 
+CREATE TYPE public.answer_type AS ENUM('OPEN', 'CLOSED');
+
 CREATE TABLE IF NOT EXISTS public."answer_option"
 (
     id bigserial primary key,
