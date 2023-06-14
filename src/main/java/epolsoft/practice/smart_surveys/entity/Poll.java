@@ -4,6 +4,9 @@ import epolsoft.practice.smart_surveys.enums.PollType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "poll")
 @Data
@@ -21,4 +24,7 @@ public class Poll
     @Column(name = "poll_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private PollType poll_type;
+
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
+    private List<AnswerOption> answers = new ArrayList<>();
 }
