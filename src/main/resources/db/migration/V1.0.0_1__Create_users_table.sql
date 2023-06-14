@@ -1,10 +1,6 @@
 -- Table: public.user
-DO $$ BEGIN
-    CREATE TYPE public.role_enum AS ENUM
-        ('USER', 'MODER', 'ADMIN');
-EXCEPTION
-    WHEN duplicate_object THEN null;
-END $$;
+CREATE TYPE public.role_enum AS ENUM
+   ('USER', 'MODER', 'ADMIN');
 
 CREATE TABLE IF NOT EXISTS public."users"
 (

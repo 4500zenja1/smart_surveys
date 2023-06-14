@@ -1,9 +1,5 @@
 -- Table: answer_option
-DO $$ BEGIN
-    CREATE TYPE public.answer_type AS ENUM ('OPEN', 'CLOSED');
-EXCEPTION
-    WHEN duplicate_object THEN null;
-END $$;
+CREATE TYPE public.answer_type AS ENUM ('OPEN', 'CLOSED');
 
 CREATE TABLE IF NOT EXISTS public."answer_option"
 (

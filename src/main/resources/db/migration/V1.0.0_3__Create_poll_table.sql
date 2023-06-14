@@ -1,9 +1,5 @@
 -- Table: public.poll
-DO $$ BEGIN
-    CREATE TYPE public.poll_enum AS ENUM ('SINGLE', 'VARIABLE');
-EXCEPTION
-    WHEN duplicate_object THEN null;
-END $$;
+CREATE TYPE public.poll_enum AS ENUM ('SINGLE', 'VARIABLE');
 
 CREATE TABLE IF NOT EXISTS public."poll"
 (
