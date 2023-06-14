@@ -9,6 +9,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -45,4 +48,7 @@ public class Survey {
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.REMOVE)
+    private List<Poll> polls = new ArrayList<>();
 }
