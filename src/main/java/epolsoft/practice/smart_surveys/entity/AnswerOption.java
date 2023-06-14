@@ -1,9 +1,13 @@
 package epolsoft.practice.smart_surveys.entity;
 import epolsoft.practice.smart_surveys.enums.RoleType;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.Formula;
 import epolsoft.practice.smart_surveys.enums.AnswerType;
 
+@Entity
+@Table(name = "answer_option")
+@Data
 public class AnswerOption
 {
     @Id
