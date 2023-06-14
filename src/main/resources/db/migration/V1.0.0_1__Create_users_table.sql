@@ -5,8 +5,8 @@ CREATE TYPE public.role_enum AS ENUM
 CREATE TABLE IF NOT EXISTS public."users"
 (
     id bigserial primary key,
-    name character varying(50)  NOT NULL,
-    email character varying(30)  NOT NULL,
-    password text  NOT NULL,
-    role_type role_enum NOT NULL
+    name varchar(50) NOT NULL,
+    email varchar(50) NOT NULL,
+    password varchar(30) NOT NULL,
+    role_type public.role_enum NOT NULL
 );
