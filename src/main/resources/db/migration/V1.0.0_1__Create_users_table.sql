@@ -1,6 +1,6 @@
 -- Table: public.user
 CREATE TYPE public.role_enum AS ENUM
-    ('USER', 'MODER', 'ADMIN');
+   ('USER', 'MODER', 'ADMIN');
 
 CREATE TABLE IF NOT EXISTS public."users"
 (
