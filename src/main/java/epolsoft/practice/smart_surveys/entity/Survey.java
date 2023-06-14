@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,7 +33,7 @@ public class Survey {
     private Boolean anonymity;
 
     @Column(name = "repeat_survey_interval", nullable = true, columnDefinition = "interval")
-    private Duration interval;
+    private LocalDateTime interval;
 
     @Column(name = "open_survey_date", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime openSurveyDate;

@@ -35,4 +35,7 @@ public class User {
     @Column(name = "role_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private List<AccessSurvey> accessSurveys = new ArrayList<>();
 }
