@@ -1,6 +1,6 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import epolsoft.practice.smart_surveys.enums.RoleType;
+import epolsoft.practice.smart_surveys.entity.enums.RoleType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
