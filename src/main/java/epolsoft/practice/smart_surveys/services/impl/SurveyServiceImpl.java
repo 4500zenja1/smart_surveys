@@ -2,6 +2,7 @@ package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
@@ -45,7 +46,12 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional(readOnly = true)
     public List<Survey> getAllSurveysByUserId(Long id) {
-        return surveyRepository.findAllByAuthorId(userService.getUserById(id).getId());
+        try {
+            userService.checkById(id);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        return surveyRepository.findAllByAuthorId(id);
     }
 
     @Override
