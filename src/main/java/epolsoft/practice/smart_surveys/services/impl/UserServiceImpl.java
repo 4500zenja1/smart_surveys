@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -22,13 +20,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            return user.get();
-        }
-        else{
-            throw new NullPointerException();
-        }
+        checkById(id);
+        return userRepository.findById(id).get();
     }
 
     @Override
@@ -44,9 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public void checkById(Long id) throws NotFoundException {
-        if(!userRepository.existsById(id)){
+        if (!userRepository.existsById(id)) {
             throw new NotFoundException("Не найден пользователь с таким id в базе данных");
         }
-
     }
 }
