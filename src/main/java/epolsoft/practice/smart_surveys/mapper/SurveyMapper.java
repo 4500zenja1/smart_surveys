@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SurveyMapper {
-    SurveyResponseDto surveyToSurveyGetDto(Survey survey);
-    List<SurveyResponseDto> surveysToSurveyGetDto(List<Survey> surveys);
+    SurveyResponseDto surveyToSurveyResponseDto(Survey survey);
+    List<SurveyResponseDto> surveysToSurveyResponseDto(List<Survey> surveys);
 }

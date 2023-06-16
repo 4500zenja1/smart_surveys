@@ -2,10 +2,10 @@ package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
-import epolsoft.practice.smart_surveys.repository.UserRepository;
+import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
+import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SurveyServiceImpl implements SurveyService {
+
     @Autowired
     private SurveyRepository surveyRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
+    @Autowired
+    private AccessSurveyService accessSurveyService;
 
     @Override
     public void createSurvey(Survey survey) {
@@ -31,28 +34,24 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional(readOnly = true)
     public Survey getSurveyById(Long id) {
-        return surveyRepository.findById(id).orElse(null);
-
+        Optional<Survey> survey = surveyRepository.findById(id);
+        if (survey.isPresent()) {
+            return survey.get();
+        } else {
+            throw new NullPointerException();
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Survey> getAllSurveysByUserId(Long id) {
-        return userRepository.findById(id)
-                .map(user -> surveyRepository.findAllByAuthor(user))
-                .stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+        return surveyRepository.findAllByAuthorId(userService.getUserById(id).getId());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AccessSurvey> getAllAccessSurveysByUserId(Long id) {
-        return userRepository.findById(id)
-                .map(User::getAccessSurveys)
-                .stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+        return accessSurveyService.getAccessSurveysByUserId(id);
     }
 
     @Override
