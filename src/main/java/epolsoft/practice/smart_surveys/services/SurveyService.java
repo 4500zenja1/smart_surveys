@@ -1,7 +1,9 @@
 package epolsoft.practice.smart_surveys.services;
 
 import epolsoft.practice.smart_surveys.entity.Survey;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface SurveyService {
     void createSurvey(Survey survey);
     void getSurveyById(Long surveyId);
