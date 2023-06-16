@@ -2,6 +2,7 @@ package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,18 +34,15 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional(readOnly = true)
     public Survey getSurveyById(Long id) {
-        Optional<Survey> survey = surveyRepository.findById(id);
-        if (survey.isPresent()) {
-            return survey.get();
-        } else {
-            throw new NullPointerException();
-        }
+        checkById(id);
+        return surveyRepository.findById(id).get();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Survey> getAllSurveysByUserId(Long id) {
-        return surveyRepository.findAllByAuthorId(userService.getUserById(id).getId());
+        userService.checkById(id);
+        return surveyRepository.findAllByAuthorId(id);
     }
 
     @Override
@@ -60,5 +57,12 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public void deleteSurvey(Long id) {
+    }
+
+    @Override
+    public void checkById(Long id) throws NotFoundException {
+        if (!surveyRepository.existsById(id)) {
+            throw new NotFoundException("Не найден опрос с таким id в базе данных");
+        }
     }
 }

@@ -1,7 +1,6 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
-import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.repository.AccessSurveyRepository;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.UserService;
@@ -25,7 +24,7 @@ public class AccessSurveyServiceImpl implements AccessSurveyService {
     @Override
     @Transactional(readOnly = true)
     public List<AccessSurvey> getAccessSurveysByUserId(Long id) {
-        User user = userService.getUserById(id);
-        return accessSurveyRepository.findAllByUserId(user.getId());
+        userService.checkById(id);
+        return accessSurveyRepository.findAllByUserId(id);
     }
 }
