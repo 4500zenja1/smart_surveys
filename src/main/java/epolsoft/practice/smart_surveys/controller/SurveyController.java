@@ -36,20 +36,20 @@ public class SurveyController {
     @GetMapping("/{id}")
     public SurveyResponseDto getById(@PathVariable Long id) {
         Survey survey = surveyService.getSurveyById(id);
-        return surveyMapper.surveyToSurveyGetDto(survey);
+        return surveyMapper.surveyToSurveyResponseDto(survey);
     }
 
     @Operation(summary = "Получить список опросов по id автора")
     @GetMapping("/author/{id}")
     public List<SurveyResponseDto> getSurveys(@PathVariable Long id) {
         List<Survey> surveys = surveyService.getAllSurveysByUserId(id);
-        return surveyMapper.surveysToSurveyGetDto(surveys);
+        return surveyMapper.surveysToSurveyResponseDto(surveys);
     }
 
     @Operation(summary = "Получить список доступных опросов автору по его id")
     @GetMapping("/available/{id}")
     public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id){
         List<AccessSurvey> accessSurveys = surveyService.getAllAccessSurveysByUserId(id);
-        return accessSurveyMapper.accessSurveysToAccessSurveyGetDto(accessSurveys);
+        return accessSurveyMapper.accessSurveysToAccessSurveyResponseDto(accessSurveys);
     }
 }
