@@ -1,16 +1,9 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.postgresql.util.PGInterval;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +14,8 @@ import java.util.List;
 @Data
 public class Survey {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "survey_generator")
+    @SequenceGenerator(name = "survey_generator", sequenceName = "survey_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "survey_title", nullable = false, length = 50)
@@ -37,7 +31,7 @@ public class Survey {
     private Boolean anonymity;
 
     @Column(name = "repeat_survey_interval", columnDefinition = "interval")
-    private String interval;
+    private PGInterval interval;
 
     @Column(name = "open_survey_date", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime openSurveyDate;
@@ -48,6 +42,7 @@ public class Survey {
     @Column(name = "close_survey_iterable_date", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime closeSurveyIterableDate;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
