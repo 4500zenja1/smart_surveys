@@ -8,7 +8,7 @@ import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import java.util.List;
 
 public interface SurveyService {
-    void createSurvey(Survey survey);
+    Survey createSurvey(Survey survey);
 
     Survey getSurveyById(Long surveyId);
 
