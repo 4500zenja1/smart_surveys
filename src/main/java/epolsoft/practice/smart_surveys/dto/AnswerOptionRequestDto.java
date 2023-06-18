@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerOptionDto {
+public class AnswerOptionRequestDto {
     @JsonProperty("id")
     private Long id;
 

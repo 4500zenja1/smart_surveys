@@ -24,7 +24,9 @@ public class PollServiceImpl implements PollService {
     private SurveyService SurveyService;
 
     @Override
-    public void createPoll(Poll Poll) {}
+    public void createPoll(Poll Poll) {
+
+    }
 
     @Override
     public Poll getPollById(Long pollId) {
