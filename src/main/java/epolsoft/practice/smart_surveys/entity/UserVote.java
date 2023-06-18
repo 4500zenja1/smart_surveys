@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import epolsoft.practice.smart_surveys.entity.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,19 +12,22 @@ import java.util.List;
 @Table(name = "user_vote")
 @Data
 public class UserVote {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "answer_option_id", referencedColumnName = "id")
-    private List<AnswerOption> answerOption = new ArrayList<>();
+    private AnswerOption answerOption;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
+
+    public UserVote() {super();}
 }
 
 
