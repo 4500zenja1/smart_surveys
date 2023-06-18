@@ -1,6 +1,7 @@
 package epolsoft.practice.smart_surveys.controller;
 
 import epolsoft.practice.smart_surveys.dto.AccessSurveyResponseDto;
+import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyResponseDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
@@ -9,12 +10,10 @@ import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +30,13 @@ public class SurveyController {
 
     @Autowired
     private SurveyMapper surveyMapper;
+
+    @Operation(summary = "Создать новый опрос")
+    @PostMapping()
+    public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
+        Survey survey = surveyMapper.surveyRequestDtoToSurvey(surveyDto);
+        return surveyMapper.surveyToSurveyResponseDto(surveyService.createSurvey(survey));
+    }
 
     @Operation(summary = "Получить опрос по id")
     @GetMapping("/{id}")
