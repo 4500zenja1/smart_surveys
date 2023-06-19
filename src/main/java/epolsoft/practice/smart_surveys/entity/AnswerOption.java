@@ -1,6 +1,5 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +20,6 @@ public class AnswerOption
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "poll_id", referencedColumnName = "id")
     private Poll poll;
@@ -30,5 +28,5 @@ public class AnswerOption
     private String option;
 
     @Column(name = "voted_count", nullable = false, columnDefinition = "integer default 0")
-    private int voted_count;
+    private int votedCount;
 }

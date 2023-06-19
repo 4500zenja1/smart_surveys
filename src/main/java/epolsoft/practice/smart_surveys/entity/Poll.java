@@ -18,7 +18,6 @@ public class Poll
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "survey_id", referencedColumnName = "id")
     private Survey survey;
