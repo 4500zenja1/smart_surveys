@@ -18,7 +18,4 @@ public class SmartSurveysApplication {
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return String.format("Hello %s!", name);
 	}
-
-	@GetMapping("/survey")
-	public String survey_hello() {return String.format("Hello from survey");}
 }
