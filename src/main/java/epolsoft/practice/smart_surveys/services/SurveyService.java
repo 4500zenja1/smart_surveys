@@ -1,6 +1,7 @@
 package epolsoft.practice.smart_surveys.services;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
+import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 
@@ -14,6 +15,8 @@ public interface SurveyService {
     List<Survey> getAllSurveysByUserId(Long id);
 
     List<AccessSurvey> getAllAccessSurveysByUserId(Long id);
+
+    List<AnswerOption> getAllAnswersOptionById(Long id);
 
     void checkById(Long id) throws NotFoundException;
 
