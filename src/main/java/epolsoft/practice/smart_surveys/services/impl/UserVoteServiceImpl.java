@@ -6,6 +6,7 @@ import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
 import epolsoft.practice.smart_surveys.repository.UserVoteRepository;
+import epolsoft.practice.smart_surveys.services.UserService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ import epolsoft.practice.smart_surveys.exceptions.*;
 @Transactional
 public class UserVoteServiceImpl implements UserVoteService {
     @Autowired
+    private UserService userService;
+    @Autowired
     private AnswerOptionRepository answerOptionRepository;
     @Autowired
     private UserVoteRepository userVoteRepository;
@@ -28,10 +31,6 @@ public class UserVoteServiceImpl implements UserVoteService {
     private UserRepository userRepository;
     @Override
     public UserVote createUserVote(UserVote userVote) {
-        /*
-        Long userVoteId = userVote.getId();
-        if(userVoteRepository.existsById(userVoteId))
-            throw new AlreadyExistsException("Результат голосования с таким ID уже существует");
 
         AnswerOption answerOption = userVote.getAnswerOption();
         Long answerOptionId = answerOption.getId();
@@ -40,19 +39,9 @@ public class UserVoteServiceImpl implements UserVoteService {
 
         User user = userVote.getUser();
         Long userId = user.getId();
-        if(!userRepository.existsById(userId))
-            throw new NotFoundException("Пользователя с таким ID не существует");
-*/
+        userService.checkById(userId);
 
-        AnswerOption answerOption = userVote.getAnswerOption();
-        Long answerOptionId = answerOption.getId();
         userVoteRepository.incrementVoteCount(answerOptionId);
         return this.userVoteRepository.save(userVote);
-    }
-
-    @Override
-    public UserVote getUserVote(Long userVoteId) {
-        UserVote userVote = this.userVoteRepository.getById(userVoteId);
-        return userVote;
     }
 }
