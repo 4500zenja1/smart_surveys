@@ -30,5 +30,5 @@ public class AnswerOption
     private String option;
 
     @Column(name = "voted_count", nullable = false, columnDefinition = "integer default 0")
-    private int voted_count;
+    private int votedCount;
 }
