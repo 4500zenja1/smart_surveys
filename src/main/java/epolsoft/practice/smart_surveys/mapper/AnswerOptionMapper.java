@@ -15,11 +15,17 @@ public interface AnswerOptionMapper extends GeneralMapper<AnswerOptionResponseDt
                 .stream()
                 .mapToInt(AnswerOption::getVotedCount)
                 .sum();
-        System.out.println(totalVotes);
-        return source
-                .stream()
-                .map(answerOption -> toResponseDto(answerOption, totalVotes))
-                .collect(Collectors.toList());
+        if (totalVotes == 0) {
+            return source
+                    .stream()
+                    .map(this::toResponseDto)
+                    .collect(Collectors.toList());
+        } else {
+            return source
+                    .stream()
+                    .map(answerOption -> toResponseDto(answerOption, totalVotes))
+                    .collect(Collectors.toList());
+        }
     }
 
     private AnswerOptionResponseDto toResponseDto(AnswerOption answerOption, int totalVotes) {

@@ -16,7 +16,7 @@ public interface SurveyService {
 
     List<AccessSurvey> getAllAccessSurveysByUserId(Long id);
 
-    List<AnswerOption> getAllAnswersOptionById(Long id);
+    Survey getAllAnswersOptionById(Long id);
 
     void checkById(Long id) throws NotFoundException;
 

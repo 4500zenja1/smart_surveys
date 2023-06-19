@@ -18,7 +18,6 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public List<Poll> getPollsBySurveyId(Long id) {
-        checkById(id);
         return pollRepository.findAllBySurveyId(id);
     }
 

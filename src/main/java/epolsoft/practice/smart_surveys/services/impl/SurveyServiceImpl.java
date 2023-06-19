@@ -1,8 +1,6 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
-import epolsoft.practice.smart_surveys.entity.AnswerOption;
-import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,15 +60,10 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<AnswerOption> getAllAnswersOptionById(Long id) {
+    @Transactional(readOnly = true)
+    public Survey getAllAnswersOptionById(Long id) {
         checkById(id);
-        List<Poll> polls = pollService.getPollsBySurveyId(id);
-        List<AnswerOption> answerOptions = new ArrayList<>();
-        for(Poll poll:polls){
-            List<AnswerOption> tmp = poll.getAnswers();
-            answerOptions.addAll(tmp);
-        }
-        return answerOptions;
+        return surveyRepository.findById(id).get();
     }
 
     @Override
@@ -83,6 +75,7 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void checkById(Long id) throws NotFoundException {
         if (!surveyRepository.existsById(id)) {
             throw new NotFoundException("Не найден опрос с таким id в базе данных");
