@@ -1,14 +1,18 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
+import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.entity.User;
+import epolsoft.practice.smart_surveys.entity.enums.TimeType;
 import epolsoft.practice.smart_surveys.exceptions.*;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
+import epolsoft.practice.smart_surveys.services.PollService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.EnumUtils;
 import org.postgresql.util.PGInterval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,22 +31,30 @@ public class SurveyServiceImpl implements SurveyService {
     private SurveyRepository surveyRepository;
 
     @Autowired
+    private PollService pollService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private AccessSurveyService accessSurveyService;
 
     @Override
-    @Transactional
     public Survey createSurvey(Survey survey) {
         Long surveyId = survey.getId();
         if (surveyRepository.existsById(surveyId)) {
             throw new AlreadyExistsException("Опросник с таким ID уже существует");
         }
 
-        PGInterval interval = survey.getInterval();
-        if (Objects.equals(interval.getValue(), "0 years 0 mons 0 days 0 hours 0 mins 0.0 secs")) {
-            throw new IntervalEmptyException("Интервал не может быть пустым");
+        Integer timeAmountValue = survey.getTimeAmount();
+        if (timeAmountValue < 0) {
+            throw new InvalidTimeException("Время не может отрицательным");
+        }
+        String timeTypeValue = survey.getTimeType().name();
+        if (!EnumUtils.isValidEnum(TimeType.class, timeTypeValue)) {
+            throw new NotFoundException(
+                    String.format("Не найдено типа времени %s", timeTypeValue)
+            );
         }
 
         LocalDateTime openDate = survey.getOpenSurveyDate();
@@ -63,6 +75,21 @@ public class SurveyServiceImpl implements SurveyService {
                     String.format("Данные пользователя с ID=%d не соответствуют введённым полям",
                             authorId)
             );
+        }
+
+        List<Poll> polls = survey.getPolls();
+        for (Poll poll: polls) {
+            Long pollId = poll.getId();
+            Poll foundPoll = pollService.getPollById(pollId);
+            if (!Objects.equals(pollId, foundPoll.getId())
+             || !Objects.equals(poll.getQuestion(), foundPoll.getQuestion())
+             || !Objects.equals(poll.getPoll_type(), foundPoll.getPoll_type())
+            ) {
+                throw new InvalidPollException(
+                        String.format("Данные пула с ID=%d не соответствуют введённым полям",
+                                authorId)
+                );
+            }
         }
 
         return surveyRepository.save(survey);
