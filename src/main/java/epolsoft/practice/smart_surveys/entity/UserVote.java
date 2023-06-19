@@ -14,7 +14,8 @@ import java.util.List;
 public class UserVote {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     private Long id;
 
     @OneToOne(cascade = CascadeType.REMOVE)
