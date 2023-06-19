@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PollServiceImpl implements PollService {
@@ -17,14 +15,26 @@ public class PollServiceImpl implements PollService {
     private PollRepository pollRepository;
 
     @Override
-    public List<Poll> getPollsBySurveyId(Long id) {
-        return pollRepository.findAllBySurveyId(id);
+    public void createPoll(Poll poll) {
     }
 
     @Override
+    public Poll getPollById(Long id) {
+        checkById(id);
+        return pollRepository.findById(id).get();
+    }
+
+    @Override
+    public void updatePoll(Poll poll, Long id) {
+    }
+
+    @Override
+    public void deletePoll(Long id) {
+    }
+
     public void checkById(Long id) throws NotFoundException {
         if (!pollRepository.existsById(id)) {
-            throw new NotFoundException("Не найден вопрос с таким id в базе данных");
+            throw new NotFoundException("Не найден пул с таким id в базе данных");
         }
     }
 }
