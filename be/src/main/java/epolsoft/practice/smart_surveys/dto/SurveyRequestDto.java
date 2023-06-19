@@ -1,18 +1,19 @@
 package epolsoft.practice.smart_surveys.dto;
 
+import epolsoft.practice.smart_surveys.entity.enums.TimeType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.Type;
-import org.postgresql.util.PGInterval;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -40,7 +41,12 @@ public class SurveyRequestDto {
     private Boolean anonymity;
 
     @NotNull
-    private PGInterval interval;
+    @Min(1)
+    private Integer timeAmount;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TimeType timeType;
 
     @NotNull
     private LocalDateTime openSurveyDate;
@@ -54,4 +60,8 @@ public class SurveyRequestDto {
     @NotNull
     @ManyToOne
     private UserRequestDto author;
+
+    @Nullable
+    @OneToMany
+    private List<PollRequestDto> polls;
 }

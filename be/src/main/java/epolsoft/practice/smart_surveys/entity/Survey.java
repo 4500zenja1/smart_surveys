@@ -1,9 +1,9 @@
 package epolsoft.practice.smart_surveys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import epolsoft.practice.smart_surveys.entity.enums.TimeType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.postgresql.util.PGInterval;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,8 +30,12 @@ public class Survey {
     @Column(name = "anonymity")
     private Boolean anonymity;
 
-    @Column(name = "repeat_survey_interval", columnDefinition = "interval")
-    private PGInterval interval;
+    @Column(name = "time_amount", nullable = false)
+    private Integer timeAmount;
+
+    @Column(name = "time_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TimeType timeType;
 
     @Column(name = "open_survey_date", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime openSurveyDate;
