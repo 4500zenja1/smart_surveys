@@ -13,16 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PollRequestDto {
-    @JsonProperty("id")
     private Long id;
-    @JsonProperty("survey_id")
+
     private Long surveyId;
-    @JsonProperty("image")
+
     private byte[] pollImage;
-    @JsonProperty("question")
+
     private String question;
-    @JsonProperty("type")
+
     private PollType type;
-    @JsonProperty("answers")
+
     private List<AnswerOption> answers;
 }

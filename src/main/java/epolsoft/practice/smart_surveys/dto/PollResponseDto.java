@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PollResponseDto {
-    @JsonProperty("id")
     private Long id;
-    @JsonProperty("image")
+
     private byte[] pollImage;
-    @JsonProperty("question")
+
     private String question;
 }

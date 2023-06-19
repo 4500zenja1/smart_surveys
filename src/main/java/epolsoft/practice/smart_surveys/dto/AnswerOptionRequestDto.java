@@ -10,12 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerOptionRequestDto {
-    @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("text")
     private Long text;
 
-    @JsonProperty("poll")
     private Poll poll;
 }
