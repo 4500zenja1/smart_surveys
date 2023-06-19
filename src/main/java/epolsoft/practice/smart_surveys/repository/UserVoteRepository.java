@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface UserVoteRepository extends JpaRepository<UserVote, Long> {
 
     @Modifying
-    @Query("update AnswerOption ao set ao.voted_count = ao.voted_count + 1  where ao.id = ?1")
+    @Query("update AnswerOption ao set ao.votedCount = ao.votedCount + 1  where ao.id = ?1")
     void incrementVoteCount(@Param("answerOptionId") Long answerOptionId);
 }
