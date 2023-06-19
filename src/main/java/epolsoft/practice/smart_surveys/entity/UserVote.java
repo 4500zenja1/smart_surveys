@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import epolsoft.practice.smart_surveys.entity.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "user_vote")
 @Data
+@NoArgsConstructor
 public class UserVote {
 
     @Id
@@ -27,8 +29,6 @@ public class UserVote {
     private User user;
     @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
-
-    public UserVote() {super();}
 }
 
 
