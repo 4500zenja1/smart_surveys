@@ -62,16 +62,6 @@ public class SurveyServiceImpl implements SurveyService {
             );
         }
 
-        User author = survey.getAuthor();
-        Long authorId = author.getId();
-        if (!author.equals(userService.getUserById(authorId))) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    String.format("Данные пользователя с ID=%d не соответствуют введённым полям",
-                        authorId)
-            );
-        }
-
         List<Poll> polls = survey.getPolls();
         for (Poll poll: polls) {
             Long pollId = poll.getId();
@@ -83,7 +73,7 @@ public class SurveyServiceImpl implements SurveyService {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         String.format("Данные пула с ID=%d не соответствуют введённым полям",
-                                authorId)
+                                pollId)
                 );
             }
         }
