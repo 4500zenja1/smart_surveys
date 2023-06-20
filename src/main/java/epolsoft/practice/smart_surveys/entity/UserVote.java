@@ -20,13 +20,12 @@ public class UserVote {
     @Column(columnDefinition = "serial")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "answer_option_id", referencedColumnName = "id")
-    private AnswerOption answerOption;
+    @Column(name = "answer_option_id", nullable = false, columnDefinition = "bigint")
+    private Long answerOptionId;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "user_id", nullable = false, columnDefinition = "bigint")
+    private Long userId;
+
     @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
 }
