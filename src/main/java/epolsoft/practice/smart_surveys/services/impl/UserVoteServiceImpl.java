@@ -17,6 +17,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import epolsoft.practice.smart_surveys.exceptions.*;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,19 +31,18 @@ public class UserVoteServiceImpl implements UserVoteService {
     private UserVoteRepository userVoteRepository;
     @Autowired
     private UserRepository userRepository;
+
     @Override
-    public UserVote createUserVote(UserVote userVote) {
+    public List<UserVote> createUserVotes(List<UserVote> userVotes) {
+        for (UserVote userVote : userVotes) {
+            if (!answerOptionRepository.existsById(userVote.getAnswerOptionId()))
+                throw new NotFoundException("Варианта ответа с таким ID не существует");
 
-        AnswerOption answerOption = userVote.getAnswerOption();
-        Long answerOptionId = answerOption.getId();
-        if(!answerOptionRepository.existsById(answerOptionId))
-            throw new NotFoundException("Варианта ответа с таким ID не существует");
+            userService.checkById(userVote.getUserId());
 
-        User user = userVote.getUser();
-        Long userId = user.getId();
-        userService.checkById(userId);
-
-        userVoteRepository.incrementVoteCount(answerOptionId);
-        return this.userVoteRepository.save(userVote);
+            userVoteRepository.incrementVoteCount(userVote.getAnswerOptionId());
+            this.userVoteRepository.save(userVote);
+        }
+        return null;
     }
 }
