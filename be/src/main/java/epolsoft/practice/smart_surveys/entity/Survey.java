@@ -1,6 +1,5 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import epolsoft.practice.smart_surveys.entity.enums.TimeType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -46,7 +45,6 @@ public class Survey {
     @Column(name = "close_survey_iterable_date", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime closeSurveyIterableDate;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
