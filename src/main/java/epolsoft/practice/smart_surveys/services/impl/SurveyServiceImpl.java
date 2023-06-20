@@ -57,6 +57,7 @@ public class SurveyServiceImpl implements SurveyService {
             );
         }
 
+        /*
         List<Poll> polls = survey.getPolls();
         for (Poll poll: polls) {
             Long pollId = poll.getId();
@@ -71,7 +72,7 @@ public class SurveyServiceImpl implements SurveyService {
                 );
             }
         }
-
+        */
         return surveyRepository.save(survey);
     }
 
