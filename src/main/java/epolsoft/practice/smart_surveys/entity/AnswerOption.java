@@ -1,20 +1,16 @@
 package epolsoft.practice.smart_surveys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import epolsoft.practice.smart_surveys.entity.enums.AnswerType;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "answer_option")
 @Data
+@NoArgsConstructor
 public class AnswerOption
 {
     @Id
@@ -29,6 +25,13 @@ public class AnswerOption
     @Column(name = "option_text", nullable = false, columnDefinition = "text")
     private String option;
 
+    @Column(name = "option_image", columnDefinition = "bytea")
+    private byte[] optionImage;
+
     @Column(name = "voted_count", nullable = false, columnDefinition = "integer default 0")
     private int votedCount;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AnswerType answerType;
 }

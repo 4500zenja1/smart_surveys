@@ -52,7 +52,7 @@ public class SurveyRequestDto {
     private LocalDateTime closeSurveyIterableDate;
 
     @NotNull
-    private Long author_id;
+    private Long authorId;
 
     @Nullable
     private List<PollRequestDto> polls;

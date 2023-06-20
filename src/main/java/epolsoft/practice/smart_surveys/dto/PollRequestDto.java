@@ -1,6 +1,7 @@
 package epolsoft.practice.smart_surveys.dto;
 
 import epolsoft.practice.smart_surveys.entity.enums.PollType;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,10 +20,14 @@ public class PollRequestDto {
     @Size(min = 1)
     private String question;
 
+    @Lob
+    @Nullable
+    private byte[] pollDescriptionImage;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private PollType pollType;
 
     @NotNull
-    private List<AnswerOptionRequestDto> answerOptions;
+    private List<AnswerOptionRequestDto> answers;
 }

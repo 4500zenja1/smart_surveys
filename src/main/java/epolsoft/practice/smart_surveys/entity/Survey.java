@@ -3,6 +3,7 @@ package epolsoft.practice.smart_surveys.entity;
 import epolsoft.practice.smart_surveys.entity.enums.TimeType;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "survey")
 @Data
+@NoArgsConstructor
 public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
