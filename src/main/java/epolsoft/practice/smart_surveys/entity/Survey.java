@@ -1,8 +1,15 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import epolsoft.practice.smart_surveys.entity.enums.TimeType;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -46,7 +53,6 @@ public class Survey {
     @Column(name = "close_survey_iterable_date", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime closeSurveyIterableDate;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
