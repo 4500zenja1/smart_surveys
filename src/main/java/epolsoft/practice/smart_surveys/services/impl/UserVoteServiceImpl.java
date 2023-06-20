@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
@@ -8,6 +9,7 @@ import epolsoft.practice.smart_surveys.services.UserService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import epolsoft.practice.smart_surveys.exceptions.*;
@@ -35,7 +37,10 @@ public class UserVoteServiceImpl implements UserVoteService {
 
             userService.checkById(userVote.getUserId());
 
-            userVoteRepository.incrementVoteCount(userVote.getAnswerOptionId());
+            AnswerOption answerOption = answerOptionRepository.getReferenceById(userVote.getAnswerOptionId());
+            answerOption.setId(userVote.getAnswerOptionId());
+            answerOption.setVotedCount();
+
             this.userVoteRepository.save(userVote);
         }
         return null;
