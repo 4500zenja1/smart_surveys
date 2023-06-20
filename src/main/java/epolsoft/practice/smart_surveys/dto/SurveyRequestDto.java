@@ -1,6 +1,5 @@
 package epolsoft.practice.smart_surveys.dto;
 
-import epolsoft.practice.smart_surveys.entity.Poll;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ public class SurveyRequestDto {
 
     private LocalDateTime closeSurveyIterableDate;
 
-    private UserResponseDto author;
+    private UserRequestDto author;
 
-    private List<Poll> polls = new ArrayList<>();
+    private List<PollRequestDto> polls = new ArrayList<>();
 }

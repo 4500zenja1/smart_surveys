@@ -5,6 +5,8 @@ import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
+import epolsoft.practice.smart_surveys.services.AnswerOptionService;
+import epolsoft.practice.smart_surveys.services.PollService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,12 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     private AccessSurveyService accessSurveyService;
+
+    @Autowired
+    private PollService pollService;
+
+    @Autowired
+    private AnswerOptionService answerOptionService;
 
     @Override
     public void createSurvey(Survey survey) {
@@ -52,6 +60,13 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Survey getAllAnswersOptionById(Long id) {
+        checkById(id);
+        return surveyRepository.findById(id).get();
+    }
+
+    @Override
     public void updateSurvey(Survey survey, Long id) {
     }
 
@@ -60,6 +75,7 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void checkById(Long id) throws NotFoundException {
         if (!surveyRepository.existsById(id)) {
             throw new NotFoundException("Не найден опрос с таким id в базе данных");

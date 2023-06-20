@@ -1,6 +1,5 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,12 +23,10 @@ public class AccessSurvey {
     @Column(name = "show_result")
     private Boolean showResult;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "survey_id", referencedColumnName = "id")
     private Survey survey;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
