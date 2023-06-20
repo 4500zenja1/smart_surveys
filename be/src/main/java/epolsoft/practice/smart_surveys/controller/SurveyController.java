@@ -5,9 +5,11 @@ import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyResponseDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.services.SurveyService;
+import epolsoft.practice.smart_surveys.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,6 +28,9 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private AccessSurveyMapper accessSurveyMapper;
 
     @Autowired
@@ -34,7 +39,10 @@ public class SurveyController {
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
     public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
+        Long authorId = surveyDto.getAuthor_id();
+        User author = userService.getUserById(authorId);
         Survey survey = surveyMapper.toEntity(surveyDto);
+        survey.setAuthor(author);
         return surveyMapper.toResponseDto(surveyService.createSurvey(survey));
     }
 
