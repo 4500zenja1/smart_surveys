@@ -4,6 +4,8 @@ import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.entity.User;
+import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.*;
 import lombok.RequiredArgsConstructor;
@@ -42,16 +44,16 @@ public class SurveyServiceImpl implements SurveyService {
         LocalDateTime closeDate = survey.getCloseSurveyDate();
         LocalDateTime closeIterableDate = survey.getCloseSurveyIterableDate();
         if (!openDate.isBefore(closeDate)) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Дата завершения опроса должна быть строго после даты начала"
+            throw new ValidationException(
+                    "Дата завершения опроса должна быть строго после даты начала"
             );
         } else if (closeIterableDate.isAfter(closeDate)) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Дата завершения итерации опроса не должна быть после даты окончания самого опроса"
+            throw new ValidationException(
+                    "Дата завершения итерации опроса не должна быть после даты окончания самого опроса"
             );
         } else if (closeIterableDate.isBefore(openDate)) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Дата завершения итерации опроса не должна быть до даты начала самого опроса"
+            throw new ValidationException(
+                    "Дата завершения итерации опроса не должна быть до даты начала самого опроса"
             );
         }
 
@@ -63,8 +65,7 @@ public class SurveyServiceImpl implements SurveyService {
              || !Objects.equals(poll.getQuestion(), foundPoll.getQuestion())
              || !Objects.equals(poll.getPoll_type(), foundPoll.getPoll_type())
             ) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
+                throw new ValidationException(
                         String.format("Данные пула с ID=%d не соответствуют введённым полям",
                                 pollId)
                 );
@@ -111,11 +112,9 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public void checkById(Long id) throws ResponseStatusException {
+    public void checkById(Long id) throws NotFoundException {
         if (!surveyRepository.existsById(id)) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Не найден пул с таким id в базе данных"
-            );
+            throw new NotFoundException("Не найден опрос с таким id в базе данных");
         }
     }
 }

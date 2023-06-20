@@ -55,6 +55,5 @@ public class SurveyRequestDto {
     private Long author_id;
 
     @Nullable
-    @OneToMany
     private List<PollRequestDto> polls;
 }
