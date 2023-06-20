@@ -13,8 +13,7 @@ import java.util.List;
 @Data
 public class Survey {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "survey_generator")
-    @SequenceGenerator(name = "survey_generator", sequenceName = "survey_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "survey_title", nullable = false, length = 50)
