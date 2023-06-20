@@ -39,9 +39,6 @@ public class SurveyServiceImpl implements SurveyService {
     private AccessSurveyService accessSurveyService;
 
     @Autowired
-    private PollService pollService;
-
-    @Autowired
     private AnswerOptionService answerOptionService;
 
     @Override

@@ -34,28 +34,28 @@ public class SurveyController {
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
     public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
-        Survey survey = surveyMapper.surveyRequestDtoToSurvey(surveyDto);
-        return surveyMapper.surveyToSurveyResponseDto(surveyService.createSurvey(survey));
+        Survey survey = surveyMapper.toEntity(surveyDto);
+        return surveyMapper.toResponseDto(surveyService.createSurvey(survey));
     }
 
     @Operation(summary = "Получить опрос по id")
     @GetMapping("/{id}")
     public SurveyResponseDto getById(@PathVariable Long id) {
         Survey survey = surveyService.getSurveyById(id);
-        return surveyMapper.surveyToSurveyResponseDto(survey);
+        return surveyMapper.toResponseDto(survey);
     }
 
     @Operation(summary = "Получить список опросов по id автора")
     @GetMapping("/author/{id}")
     public List<SurveyResponseDto> getSurveys(@PathVariable Long id) {
         List<Survey> surveys = surveyService.getAllSurveysByUserId(id);
-        return surveyMapper.surveysToSurveyResponseDto(surveys);
+        return surveyMapper.toResponseDtos(surveys);
     }
 
     @Operation(summary = "Получить список доступных опросов автору по его id")
     @GetMapping("/available/{id}")
     public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id){
         List<AccessSurvey> accessSurveys = surveyService.getAllAccessSurveysByUserId(id);
-        return accessSurveyMapper.accessSurveysToAccessSurveyResponseDto(accessSurveys);
+        return accessSurveyMapper.toResponseDtos(accessSurveys);
     }
 }
