@@ -3,21 +3,17 @@ package epolsoft.practice.smart_surveys.services.impl;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +35,7 @@ public class SurveyServiceImpl implements SurveyService {
     private AnswerOptionService answerOptionService;
 
     @Override
+    @Transactional
     public Survey createSurvey(Survey survey) {
         LocalDateTime openDate = survey.getOpenSurveyDate();
         LocalDateTime closeDate = survey.getCloseSurveyDate();
@@ -57,22 +54,11 @@ public class SurveyServiceImpl implements SurveyService {
             );
         }
 
-        /*
         List<Poll> polls = survey.getPolls();
         for (Poll poll: polls) {
-            Long pollId = poll.getId();
-            Poll foundPoll = pollService.getPollById(pollId);
-            if (!Objects.equals(pollId, foundPoll.getId())
-             || !Objects.equals(poll.getQuestion(), foundPoll.getQuestion())
-             || !Objects.equals(poll.getPoll_type(), foundPoll.getPoll_type())
-            ) {
-                throw new ValidationException(
-                        String.format("Данные пула с ID=%d не соответствуют введённым полям",
-                                pollId)
-                );
-            }
+            pollService.createPoll(poll);
         }
-        */
+
         return surveyRepository.save(survey);
     }
 

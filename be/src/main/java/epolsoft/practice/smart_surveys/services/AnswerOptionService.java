@@ -6,6 +6,7 @@ import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import java.util.List;
 
 public interface AnswerOptionService {
+    AnswerOption createAnswerOption(AnswerOption answerOption);
     List<AnswerOption> getAnswersOptionByPollId(Long id);
     void checkById(Long id) throws NotFoundException;
 }
