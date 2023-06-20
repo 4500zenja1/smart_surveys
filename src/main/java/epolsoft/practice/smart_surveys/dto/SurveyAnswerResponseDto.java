@@ -5,14 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SurveyRequestDto {
+@NoArgsConstructor
+public class SurveyAnswerResponseDto {
     private Long id;
 
     private String surveyTitle;
@@ -23,15 +21,11 @@ public class SurveyRequestDto {
 
     private Boolean anonymity;
 
-    private String interval;
-
     private LocalDateTime openSurveyDate;
 
     private LocalDateTime closeSurveyDate;
 
-    private LocalDateTime closeSurveyIterableDate;
+    private UserResponseDto author;
 
-    private UserRequestDto author;
-
-    private List<PollRequestDto> polls = new ArrayList<>();
+    private List<PollResponseDto> polls;
 }
