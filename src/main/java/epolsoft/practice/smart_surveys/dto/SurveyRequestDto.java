@@ -16,12 +16,9 @@ import java.util.List;
 
 
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class SurveyRequestDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotEmpty
@@ -57,8 +54,7 @@ public class SurveyRequestDto {
     private LocalDateTime closeSurveyIterableDate;
 
     @NotNull
-    @ManyToOne
-    private UserRequestDto author;
+    private Long author_id;
 
     @Nullable
     @OneToMany
