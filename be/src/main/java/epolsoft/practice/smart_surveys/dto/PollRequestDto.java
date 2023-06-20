@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,5 +21,8 @@ public class PollRequestDto {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private PollType poll_type;
+    private PollType pollType;
+
+    @NotNull
+    private List<AnswerOptionRequestDto> answerOptions;
 }

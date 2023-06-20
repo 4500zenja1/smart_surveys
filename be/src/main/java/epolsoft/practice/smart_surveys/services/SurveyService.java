@@ -2,7 +2,7 @@ package epolsoft.practice.smart_surveys.services;
 
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import org.springframework.web.server.ResponseStatusException;
+import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface SurveyService {
 
     Survey getAllAnswersOptionById(Long id);
 
-    void checkById(Long id) throws ResponseStatusException;
+    void checkById(Long id) throws NotFoundException;
 
     void updateSurvey(Survey survey, Long surveyId);
 

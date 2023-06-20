@@ -1,6 +1,7 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.entity.AnswerOption;
+import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
 import epolsoft.practice.smart_surveys.services.AnswerOptionService;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,10 @@ public class AnswerOptionServiceImpl implements AnswerOptionService {
     }
 
     @Override
-    public void checkById(Long id) throws ResponseStatusException {
+    public void checkById(Long id) throws NotFoundException {
         if (!answerOptionRepository.existsById(id)) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Не найден вариант ответа с таким id в базе данных"
+            throw new NotFoundException(
+                    "Не найден вариант ответа с таким id в базе данных"
             );
         }
     }
