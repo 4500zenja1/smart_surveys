@@ -56,6 +56,7 @@ public class SurveyServiceImpl implements SurveyService {
 
         List<Poll> polls = survey.getPolls();
         for (Poll poll: polls) {
+            poll.setSurvey(survey);
             pollService.createPoll(poll);
         }
 
