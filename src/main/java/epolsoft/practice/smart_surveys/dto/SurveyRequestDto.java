@@ -19,8 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SurveyRequestDto {
-    private Long id;
-
     @NotEmpty
     @Size(min = 1, max = 50)
     private String surveyTitle;
