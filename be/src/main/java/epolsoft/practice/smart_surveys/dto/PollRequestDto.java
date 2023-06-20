@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PollRequestDto {
-    private Long id;
-
     @NotEmpty
     @Size(min = 1)
     private String question;

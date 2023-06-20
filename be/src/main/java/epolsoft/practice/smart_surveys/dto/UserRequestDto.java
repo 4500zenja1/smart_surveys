@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
-    private Long id;
-
     @NotEmpty
     @Size(min = 1, max = 50)
     private String name;

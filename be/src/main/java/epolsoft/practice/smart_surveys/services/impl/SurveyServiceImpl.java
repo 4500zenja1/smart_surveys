@@ -38,13 +38,6 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public Survey createSurvey(Survey survey) {
-        Long surveyId = survey.getId();
-        if (surveyRepository.existsById(surveyId)) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT, "Опрос с таким ID уже существует"
-            );
-        }
-
         LocalDateTime openDate = survey.getOpenSurveyDate();
         LocalDateTime closeDate = survey.getCloseSurveyDate();
         LocalDateTime closeIterableDate = survey.getCloseSurveyIterableDate();
