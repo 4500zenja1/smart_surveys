@@ -1,14 +1,14 @@
 package epolsoft.practice.smart_surveys.services;
 
 import epolsoft.practice.smart_surveys.entity.User;
-import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import org.springframework.web.server.ResponseStatusException;
 
 public interface UserService {
     void createUser(User user);
 
     User getUserById(Long id);
 
-    void checkById(Long id) throws NotFoundException;
+    void checkById(Long id) throws ResponseStatusException;
 
     void getAllUsers();
 

@@ -4,19 +4,14 @@ import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.entity.User;
-import epolsoft.practice.smart_surveys.entity.enums.TimeType;
-import epolsoft.practice.smart_surveys.exceptions.*;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
-import epolsoft.practice.smart_surveys.services.AccessSurveyService;
-import epolsoft.practice.smart_surveys.services.AnswerOptionService;
-import epolsoft.practice.smart_surveys.services.PollService;
-import epolsoft.practice.smart_surveys.services.SurveyService;
-import epolsoft.practice.smart_surveys.services.UserService;
+import epolsoft.practice.smart_surveys.services.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,17 +40,8 @@ public class SurveyServiceImpl implements SurveyService {
     public Survey createSurvey(Survey survey) {
         Long surveyId = survey.getId();
         if (surveyRepository.existsById(surveyId)) {
-            throw new AlreadyExistsException("Опросник с таким ID уже существует");
-        }
-
-        Integer timeAmountValue = survey.getTimeAmount();
-        if (timeAmountValue < 0) {
-            throw new InvalidTimeException("Время не может отрицательным");
-        }
-        String timeTypeValue = survey.getTimeType().name();
-        if (!EnumUtils.isValidEnum(TimeType.class, timeTypeValue)) {
-            throw new NotFoundException(
-                    String.format("Не найдено типа времени %s", timeTypeValue)
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Опрос с таким ID уже существует"
             );
         }
 
@@ -63,19 +49,26 @@ public class SurveyServiceImpl implements SurveyService {
         LocalDateTime closeDate = survey.getCloseSurveyDate();
         LocalDateTime closeIterableDate = survey.getCloseSurveyIterableDate();
         if (!openDate.isBefore(closeDate)) {
-            throw new InvalidDatesException("Дата завершения опроса должна быть строго после даты начала");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Дата завершения опроса должна быть строго после даты начала"
+            );
         } else if (closeIterableDate.isAfter(closeDate)) {
-            throw new InvalidDatesException("Дата завершения итерации опроса не должна быть после даты окончания самого опроса");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Дата завершения итерации опроса не должна быть после даты окончания самого опроса"
+            );
         } else if (closeIterableDate.isBefore(openDate)) {
-            throw new InvalidDatesException("Дата завершения итерации опроса не должна быть до даты начала самого опроса");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Дата завершения итерации опроса не должна быть до даты начала самого опроса"
+            );
         }
 
         User author = survey.getAuthor();
         Long authorId = author.getId();
         if (!author.equals(userService.getUserById(authorId))) {
-            throw new InvalidUserException(
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
                     String.format("Данные пользователя с ID=%d не соответствуют введённым полям",
-                            authorId)
+                        authorId)
             );
         }
 
@@ -87,7 +80,8 @@ public class SurveyServiceImpl implements SurveyService {
              || !Objects.equals(poll.getQuestion(), foundPoll.getQuestion())
              || !Objects.equals(poll.getPoll_type(), foundPoll.getPoll_type())
             ) {
-                throw new InvalidPollException(
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
                         String.format("Данные пула с ID=%d не соответствуют введённым полям",
                                 authorId)
                 );
@@ -134,9 +128,11 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public void checkById(Long id) throws NotFoundException {
+    public void checkById(Long id) throws ResponseStatusException {
         if (!surveyRepository.existsById(id)) {
-            throw new NotFoundException("Не найден опрос с таким id в базе данных");
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Не найден пул с таким id в базе данных"
+            );
         }
     }
 }
