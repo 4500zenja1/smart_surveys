@@ -1,7 +1,5 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
-import epolsoft.practice.smart_surveys.entity.AnswerOption;
-import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
@@ -11,9 +9,6 @@ import epolsoft.practice.smart_surveys.services.UserVoteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import epolsoft.practice.smart_surveys.exceptions.*;
 

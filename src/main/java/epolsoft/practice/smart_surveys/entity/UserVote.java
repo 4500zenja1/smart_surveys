@@ -1,13 +1,8 @@
 package epolsoft.practice.smart_surveys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import epolsoft.practice.smart_surveys.entity.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "user_vote")
