@@ -1,14 +1,15 @@
 package epolsoft.practice.smart_surveys.controller;
 
 import epolsoft.practice.smart_surveys.dto.AccessSurveyResponseDto;
+import epolsoft.practice.smart_surveys.dto.SurveyAnswerResponseDto;
 import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyResponseDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
+import epolsoft.practice.smart_surveys.mapper.SurveyAnswerOptionMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.services.SurveyService;
-import epolsoft.practice.smart_surveys.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -27,13 +28,13 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private SurveyMapper surveyMapper;
 
     @Autowired
     private AccessSurveyMapper accessSurveyMapper;
+
+    @Autowired
+    private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
 
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
@@ -61,5 +62,12 @@ public class SurveyController {
     public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id){
         List<AccessSurvey> accessSurveys = surveyService.getAllAccessSurveysByUserId(id);
         return accessSurveyMapper.toResponseDtos(accessSurveys);
+    }
+
+    @Operation(summary = "Получить данные по id опроса: количество голосов за каждый вариант ответа и процентное соотношение ответов. ")
+    @GetMapping("/{id}/answers")
+    public SurveyAnswerResponseDto getAnswersOption(@PathVariable Long id) {
+        Survey survey = surveyService.getAllAnswersOptionById(id);
+        return surveyAnswerOptionMapper.toResponseDto(survey);
     }
 }
