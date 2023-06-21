@@ -1,7 +1,9 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.dto.UserVoteRequestDto;
 import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.UserVote;
+import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
 import epolsoft.practice.smart_surveys.repository.UserVoteRepository;
@@ -28,10 +30,12 @@ public class UserVoteServiceImpl implements UserVoteService {
     private UserVoteRepository userVoteRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserVoteMapper userVoteMapper;
 
     @Override
-    public List<UserVote> createUserVotes(List<UserVote> userVotes) {
-        for (UserVote userVote : userVotes) {
+    public List<UserVoteRequestDto> createUserVotes(List<UserVoteRequestDto> userVotes) {
+        for (UserVoteRequestDto userVote : userVotes) {
             if (!answerOptionRepository.existsById(userVote.getAnswerOptionId()))
                 throw new NotFoundException("Варианта ответа с таким ID не существует");
 
@@ -41,7 +45,7 @@ public class UserVoteServiceImpl implements UserVoteService {
             answerOption.setId(userVote.getAnswerOptionId());
             answerOption.setVotedCount();
 
-            this.userVoteRepository.save(userVote);
+            this.userVoteRepository.save(userVoteMapper.toSingleEntity(userVote));
         }
         return userVotes;
     }
