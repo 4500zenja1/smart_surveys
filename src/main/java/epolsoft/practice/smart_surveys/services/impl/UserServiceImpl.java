@@ -31,21 +31,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User newUser) {
-          User user = getUserById(newUser.getId());
-          user.setName(newUser.getName());
-          user.setEmail(newUser.getEmail());
-          user.setName(newUser.getName());
-          user.setRole(newUser.getRole());
-          user.setPassword(newUser.getPassword());
-          userRepository.save(user);
+    public void updateUser(User newUser, Long id) {
+        User user = getUserById(id);
+        user.setName(newUser.getName());
+        user.setEmail(newUser.getEmail());
+        user.setName(newUser.getName());
+        user.setRole(newUser.getRole());
+        user.setPassword(newUser.getPassword());
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void changePassword(User newUser) {
-        User user = getUserById(newUser.getId());
-        user.setPassword(newUser.getPassword());
+    public void changePassword(Long id, String password) {
+        User user = getUserById(id);
+        user.setPassword(password);
         userRepository.save(user);
     }
 
