@@ -7,6 +7,7 @@ import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
 import epolsoft.practice.smart_surveys.repository.UserVoteRepository;
+import epolsoft.practice.smart_surveys.services.AnswerOptionService;
 import epolsoft.practice.smart_surveys.services.UserService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import jakarta.transaction.Transactional;
@@ -32,14 +33,14 @@ public class UserVoteServiceImpl implements UserVoteService {
     private UserRepository userRepository;
     @Autowired
     private UserVoteMapper userVoteMapper;
+    @Autowired
+    private AnswerOptionService answerOptionService;
 
     @Override
     public List<UserVoteRequestDto> createUserVotes(List<UserVoteRequestDto> userVotes) {
         for (UserVoteRequestDto userVote : userVotes) {
-            if (!answerOptionRepository.existsById(userVote.getAnswerOptionId()))
-                throw new NotFoundException("Варианта ответа с таким ID не существует");
-
             userService.checkById(userVote.getUserId());
+            answerOptionService.checkById(userVote.getAnswerOptionId());
 
             AnswerOption answerOption = answerOptionRepository.getReferenceById(userVote.getAnswerOptionId());
             answerOption.setId(userVote.getAnswerOptionId());
