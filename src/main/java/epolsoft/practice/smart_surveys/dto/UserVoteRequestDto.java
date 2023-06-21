@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserVoteRequestDto {
+    @NotNull
     private Long answerOptionId;
 
-    private Long userId;
-
+    @NotNull
     private String text;
 }
