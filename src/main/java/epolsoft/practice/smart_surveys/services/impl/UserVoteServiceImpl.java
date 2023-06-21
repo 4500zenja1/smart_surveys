@@ -1,6 +1,7 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.dto.UserVoteRequestDto;
+import epolsoft.practice.smart_surveys.dto.UserVoteResponseDto;
 import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
@@ -26,23 +27,17 @@ public class UserVoteServiceImpl implements UserVoteService {
     @Autowired
     private UserService userService;
     @Autowired
-    private AnswerOptionRepository answerOptionRepository;
-    @Autowired
     private UserVoteRepository userVoteRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private UserVoteMapper userVoteMapper;
     @Autowired
     private AnswerOptionService answerOptionService;
 
     @Override
-    public List<UserVoteRequestDto> createUserVotes(List<UserVoteRequestDto> userVotes) {
-        for (UserVoteRequestDto userVote : userVotes) {
-            userService.checkById(userVote.getUserId());
-            answerOptionService.checkById(userVote.getAnswerOptionId());
-            this.userVoteRepository.save(userVoteMapper.toSingleEntity(userVote));
-        }
+    public List<UserVoteResponseDto> createUserVotes(List<UserVoteResponseDto> userVotes) {
+        userService.checkById(userVotes.get(0).getUserId());
+        answerOptionService.checkAll(userVotes);
+        this.userVoteRepository.saveAll(userVoteMapper.toEntity(userVotes));
         return userVotes;
     }
 }
