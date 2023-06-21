@@ -1,10 +1,6 @@
 package epolsoft.practice.smart_surveys.controller;
 
-import epolsoft.practice.smart_surveys.dto.AccessSurveyResponseDto;
-import epolsoft.practice.smart_surveys.dto.SurveyAnswerResponseDto;
-import epolsoft.practice.smart_surveys.dto.SurveyResponseDto;
-import epolsoft.practice.smart_surveys.dto.UserVoteRequestDto;
-import epolsoft.practice.smart_surveys.dto.UserVoteResponseDto;
+import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.entity.UserVote;
@@ -78,12 +74,12 @@ public class SurveyController {
 
 
     @Operation(summary = "записать результаты опроса в бд")
-    @PostMapping("/{id}/submit")
+    @PostMapping("/submit")
     public List<UserVoteResponseDto> setUserVote(
-            @PathVariable Long id,
             @RequestBody List<UserVoteRequestDto> userVoteDtos,
             @RequestParam(value = "user_id") Long userId) {
-        for (UserVoteRequestDto userVoteDto : userVoteDtos) userVoteDto.setUserId(userId);
-        return userVoteMapper.toResponseDtos(userVoteService.createUserVotes(userVoteDtos));
+        List<UserVoteResponseDto> userVoteResponseDto = userVoteMapper.toResponseDtos(userVoteDtos);
+        for(UserVoteResponseDto userVote : userVoteResponseDto) userVote.setUserId(userId);
+        return userVoteService.createUserVotes(userVoteResponseDto);
     }
 }
