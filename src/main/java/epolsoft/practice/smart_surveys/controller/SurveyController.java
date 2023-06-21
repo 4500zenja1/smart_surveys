@@ -40,10 +40,10 @@ public class SurveyController {
     @PostMapping()
     public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
         Long authorId = surveyDto.getAuthorId();
-        User author = userService.getUserById(authorId);
+
         Survey survey = surveyMapper.toEntity(surveyDto);
-        survey.setAuthor(author);
-        return surveyMapper.toResponseDto(surveyService.createSurvey(survey));
+
+        return surveyMapper.toResponseDto(surveyService.createSurvey(survey, authorId));
     }
 
     @Operation(summary = "Получить опрос по id")

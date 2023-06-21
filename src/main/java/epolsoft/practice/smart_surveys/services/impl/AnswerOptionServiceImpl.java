@@ -27,6 +27,12 @@ public class AnswerOptionServiceImpl implements AnswerOptionService {
     }
 
     @Override
+    public AnswerOption getAnswerOptionById(Long id) {
+        checkById(id);
+        return answerOptionRepository.findById(id).get();
+    }
+
+    @Override
     public List<AnswerOption> getAnswersOptionByPollId(Long id) {
         checkById(id);
         return answerOptionRepository.findAllByPollId(id);

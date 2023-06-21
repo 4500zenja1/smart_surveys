@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface AnswerOptionService {
     AnswerOption createAnswerOption(AnswerOption answerOption);
+    AnswerOption getAnswerOptionById(Long id);
     List<AnswerOption> getAnswersOptionByPollId(Long id);
     void checkById(Long id) throws NotFoundException;
 }
