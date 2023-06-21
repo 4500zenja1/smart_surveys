@@ -12,7 +12,9 @@ public interface UserService {
 
     void getAllUsers();
 
-    void updateUser(User user, Long id);
+    void updateUser(User user);
+
+    void changePassword(User user);
 
     void deleteUser(Long id);
 }
