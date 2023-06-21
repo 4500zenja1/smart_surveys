@@ -54,6 +54,13 @@ public class SurveyServiceImpl implements SurveyService {
             );
         }
 
+        Integer timeAmount = survey.getTimeAmount();
+        if (timeAmount == 0 && !closeIterableDate.isEqual(closeDate)) {
+            throw new ValidationException(
+                    "Если интервал равен 0, то дата завершения итерации опроса должна совпадать с датой окончания самого опроса"
+            );
+        }
+
         List<Poll> polls = survey.getPolls();
         for (Poll poll: polls) {
             poll.setSurvey(survey);
