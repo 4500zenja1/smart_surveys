@@ -43,6 +43,6 @@ public class UserVoteServiceImpl implements UserVoteService {
 
             this.userVoteRepository.save(userVote);
         }
-        return null;
+        return userVotes;
     }
 }
