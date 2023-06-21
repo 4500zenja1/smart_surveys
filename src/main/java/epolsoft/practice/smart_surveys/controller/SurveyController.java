@@ -82,8 +82,8 @@ public class SurveyController {
     public List<UserVoteResponseDto> setUserVote(
             @PathVariable Long id,
             @RequestBody List<UserVoteRequestDto> userVoteDtos,
-            @RequestParam(value = "user_id") Long user_id) {
-        for (UserVoteRequestDto userVoteDto : userVoteDtos) userVoteDto.setUserId(user_id);
+            @RequestParam(value = "user_id") Long userId) {
+        for (UserVoteRequestDto userVoteDto : userVoteDtos) userVoteDto.setUserId(userId);
         System.out.println(userVoteDtos);
         List<UserVote> userVotes = userVoteMapper.toEntity(userVoteDtos);
         return userVoteMapper.toResponseDtos(userVoteService.createUserVotes(userVotes));
