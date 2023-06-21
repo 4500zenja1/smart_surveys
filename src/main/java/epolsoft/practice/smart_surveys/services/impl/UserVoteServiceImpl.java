@@ -41,11 +41,6 @@ public class UserVoteServiceImpl implements UserVoteService {
         for (UserVoteRequestDto userVote : userVotes) {
             userService.checkById(userVote.getUserId());
             answerOptionService.checkById(userVote.getAnswerOptionId());
-
-            AnswerOption answerOption = answerOptionRepository.getReferenceById(userVote.getAnswerOptionId());
-            answerOption.setId(userVote.getAnswerOptionId());
-            answerOption.setVotedCount();
-
             this.userVoteRepository.save(userVoteMapper.toSingleEntity(userVote));
         }
         return userVotes;
