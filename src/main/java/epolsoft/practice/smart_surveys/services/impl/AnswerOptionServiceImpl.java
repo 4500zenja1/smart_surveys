@@ -1,5 +1,7 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.dto.UserVoteRequestDto;
+import epolsoft.practice.smart_surveys.dto.UserVoteResponseDto;
 import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.repository.AnswerOptionRepository;
@@ -21,6 +23,13 @@ public class AnswerOptionServiceImpl implements AnswerOptionService {
     public List<AnswerOption> getAnswersOptionByPollId(Long id) {
         checkById(id);
         return answerOptionRepository.findAllByPollId(id);
+    }
+
+    @Override
+    public void checkAll(List<UserVoteResponseDto> answerOptions) throws NotFoundException {
+        for (UserVoteResponseDto answerOption : answerOptions) {
+            answerOptionRepository.existsById(answerOption.getAnswerOptionId());
+        }
     }
 
     @Override
