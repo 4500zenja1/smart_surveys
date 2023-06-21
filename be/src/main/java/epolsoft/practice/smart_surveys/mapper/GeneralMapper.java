@@ -1,5 +1,7 @@
 package epolsoft.practice.smart_surveys.mapper;
 
+import org.mapstruct.Mapper;
+
 import java.util.List;
 
 public interface GeneralMapper<D,E,R>{

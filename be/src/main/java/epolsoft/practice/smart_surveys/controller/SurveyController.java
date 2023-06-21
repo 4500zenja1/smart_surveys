@@ -5,7 +5,6 @@ import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyResponseDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.services.SurveyService;
@@ -31,10 +30,10 @@ public class SurveyController {
     private UserService userService;
 
     @Autowired
-    private AccessSurveyMapper accessSurveyMapper;
+    private SurveyMapper surveyMapper;
 
     @Autowired
-    private SurveyMapper surveyMapper;
+    private AccessSurveyMapper accessSurveyMapper;
 
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
