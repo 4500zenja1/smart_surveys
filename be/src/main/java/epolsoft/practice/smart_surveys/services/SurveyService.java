@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.services;
 
+import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
@@ -7,7 +8,7 @@ import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import java.util.List;
 
 public interface SurveyService {
-    Survey createSurvey(Survey survey, Long authorId);
+    Survey createSurvey(SurveyRequestDto surveyRequestDto);
 
     Survey getSurveyById(Long surveyId);
 

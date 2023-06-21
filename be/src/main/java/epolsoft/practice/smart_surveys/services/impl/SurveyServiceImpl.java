@@ -1,11 +1,14 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.dto.PollRequestDto;
+import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
+import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
 import epolsoft.practice.smart_surveys.services.*;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,9 @@ public class SurveyServiceImpl implements SurveyService {
     private SurveyRepository surveyRepository;
 
     @Autowired
+    private SurveyMapper surveyMapper;
+
+    @Autowired
     private PollService pollService;
 
     @Autowired
@@ -37,9 +43,9 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional
-    public Survey createSurvey(Survey survey, Long authorId) {
-        User author = userService.getUserById(authorId);
-        survey.setAuthor(author);
+    public Survey createSurvey(SurveyRequestDto surveyRequestDto) {
+
+        Survey survey = surveyMapper.toEntity(surveyRequestDto);
 
         LocalDateTime openDate = survey.getOpenSurveyDate();
         LocalDateTime closeDate = survey.getCloseSurveyDate();
@@ -65,10 +71,14 @@ public class SurveyServiceImpl implements SurveyService {
             );
         }
 
-        List<Poll> polls = survey.getPolls();
-        for (Poll poll: polls) {
+        Long authorId = surveyRequestDto.getAuthorId();
+        User author = userService.getUserById(authorId);
+        survey.setAuthor(author);
+
+        List<PollRequestDto> pollRequestDtoList = surveyRequestDto.getPolls();
+        for (PollRequestDto pollRequestDto : pollRequestDtoList) {
+            Poll poll = pollService.createPoll(pollRequestDto);
             poll.setSurvey(survey);
-            pollService.createPoll(poll);
         }
 
         return surveyRepository.save(survey);

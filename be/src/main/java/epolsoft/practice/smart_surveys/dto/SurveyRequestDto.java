@@ -51,6 +51,6 @@ public class SurveyRequestDto {
     @NotNull
     private Long authorId;
 
-    @Nullable
+    @NotNull
     private List<PollRequestDto> polls;
 }
