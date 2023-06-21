@@ -9,8 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserVoteMapper {
-    UserVote toSingleEntity(UserVoteRequestDto userVoteDto);
-    List<UserVote> toEntity(List<UserVoteRequestDto> userVoteDto);
+    List<UserVote> toEntity(List<UserVoteResponseDto> userVoteDto);
     UserVoteResponseDto toResponseDto(UserVoteRequestDto userVote);
     List<UserVoteResponseDto> toResponseDtos(List<UserVoteRequestDto> userVotes);
 }
