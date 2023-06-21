@@ -2,7 +2,6 @@ package epolsoft.practice.smart_surveys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import epolsoft.practice.smart_surveys.entity.enums.PollType;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 

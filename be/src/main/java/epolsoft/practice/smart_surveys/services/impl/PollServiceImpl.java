@@ -9,7 +9,6 @@ import epolsoft.practice.smart_surveys.mapper.PollMapper;
 import epolsoft.practice.smart_surveys.repository.PollRepository;
 import epolsoft.practice.smart_surveys.services.AnswerOptionService;
 import epolsoft.practice.smart_surveys.services.PollService;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

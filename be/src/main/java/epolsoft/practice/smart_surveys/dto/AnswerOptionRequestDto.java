@@ -1,7 +1,6 @@
 package epolsoft.practice.smart_surveys.dto;
 
 import epolsoft.practice.smart_surveys.entity.enums.AnswerType;
-import epolsoft.practice.smart_surveys.entity.enums.PollType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
