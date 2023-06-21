@@ -3,10 +3,7 @@ package epolsoft.practice.smart_surveys.dto;
 import epolsoft.practice.smart_surveys.entity.enums.TimeType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,7 +32,7 @@ public class SurveyRequestDto {
     private Boolean anonymity;
 
     @NotNull
-    @Min(1)
+    @PositiveOrZero
     private Integer timeAmount;
 
     @NotNull
