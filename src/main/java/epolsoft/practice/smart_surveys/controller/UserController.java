@@ -7,7 +7,6 @@ import epolsoft.practice.smart_surveys.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +37,9 @@ public class UserController {
     }
 
     @Operation(summary = "Изменение пароля пользователем")
-    @PostMapping("/update/{id}/{password}")
+    @PostMapping(value = "/update_password/{id}")
     public void changePassword(@PathVariable Long id,
-                               @Size(min = 6, message = "Пароль должен быть больше 6 символов") @PathVariable String password) {
+                               @Size(min = 6, message = "Пароль должен быть больше 6 символов") @RequestBody String password) {
         userService.changePassword(id, password);
     }
 }
