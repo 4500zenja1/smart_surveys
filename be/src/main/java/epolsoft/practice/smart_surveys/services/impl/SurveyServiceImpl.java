@@ -3,6 +3,7 @@ package epolsoft.practice.smart_surveys.services.impl;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
@@ -36,7 +37,10 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional
-    public Survey createSurvey(Survey survey) {
+    public Survey createSurvey(Survey survey, Long authorId) {
+        User author = userService.getUserById(authorId);
+        survey.setAuthor(author);
+
         LocalDateTime openDate = survey.getOpenSurveyDate();
         LocalDateTime closeDate = survey.getCloseSurveyDate();
         LocalDateTime closeIterableDate = survey.getCloseSurveyIterableDate();
