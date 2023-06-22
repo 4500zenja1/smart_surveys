@@ -28,7 +28,7 @@ public class Poll
 
     @Column(name = "poll_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private PollType poll_type;
+    private PollType pollType;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     private List<AnswerOption> answers = new ArrayList<>();
