@@ -3,6 +3,8 @@ package epolsoft.practice.smart_surveys.services;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 
+import java.util.List;
+
 public interface UserService {
     void createUser(User user);
 
@@ -10,7 +12,7 @@ public interface UserService {
 
     void checkById(Long id) throws NotFoundException;
 
-    void getAllUsers();
+    List<User> getAllUsers();
 
     void updateUser(User user,Long id);
 
