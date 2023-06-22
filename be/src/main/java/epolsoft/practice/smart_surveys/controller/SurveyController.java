@@ -1,18 +1,17 @@
 package epolsoft.practice.smart_surveys.controller;
 
-import epolsoft.practice.smart_surveys.dto.AccessSurveyResponseDto;
-import epolsoft.practice.smart_surveys.dto.SurveyAnswerResponseDto;
-import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
-import epolsoft.practice.smart_surveys.dto.SurveyResponseDto;
+import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyAnswerOptionMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
+import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
 import epolsoft.practice.smart_surveys.services.SurveyService;
+import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +27,10 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @Autowired
-    private SurveyMapper surveyMapper;
+    private AccessSurveyMapper accessSurveyMapper;
 
     @Autowired
-    private AccessSurveyMapper accessSurveyMapper;
+    private SurveyMapper surveyMapper;
 
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
@@ -57,9 +56,9 @@ public class SurveyController {
         return surveyMapper.toResponseDtos(surveys);
     }
 
-    @Operation(summary = "Получить список доступных опросов автору по его id")
+    @Operation(summary = "Получить список доступных опросов пользователю по его id")
     @GetMapping("/available/{id}")
-    public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id){
+    public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id) {
         List<AccessSurvey> accessSurveys = surveyService.getAllAccessSurveysByUserId(id);
         return accessSurveyMapper.toResponseDtos(accessSurveys);
     }
@@ -69,5 +68,15 @@ public class SurveyController {
     public SurveyAnswerResponseDto getAnswersOption(@PathVariable Long id) {
         Survey survey = surveyService.getAllAnswersOptionById(id);
         return surveyAnswerOptionMapper.toResponseDto(survey);
+    }
+
+    @Operation(summary = "записать результаты опроса в бд")
+    @PostMapping("/submit")
+    public List<UserVoteResponseDto> setUserVote(
+            @RequestBody List<UserVoteRequestDto> userVoteDtos,
+            @RequestParam(value = "user_id") Long userId) {
+        List<UserVoteResponseDto> userVoteResponseDto = userVoteMapper.toResponseDtos(userVoteDtos);
+        for(UserVoteResponseDto userVote : userVoteResponseDto) userVote.setUserId(userId);
+        return userVoteService.createUserVotes(userVoteResponseDto);
     }
 }
