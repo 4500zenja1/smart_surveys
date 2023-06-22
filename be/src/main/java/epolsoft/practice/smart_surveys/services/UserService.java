@@ -1,14 +1,13 @@
 package epolsoft.practice.smart_surveys.services;
 
 import epolsoft.practice.smart_surveys.dto.UserRequestDto;
-import epolsoft.practice.smart_surveys.dto.UserUpdateRequestDto;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 
 import java.util.List;
 
 public interface UserService {
-    User createUser(UserUpdateRequestDto userUpdateRequestDto);
+    User createUser(UserRequestDto userRequestDto);
 
     User getUserById(Long id);
 

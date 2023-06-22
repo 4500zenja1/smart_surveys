@@ -1,6 +1,6 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
-import epolsoft.practice.smart_surveys.dto.UserUpdateRequestDto;
+import epolsoft.practice.smart_surveys.dto.UserRequestDto;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.mapper.UserMapper;
@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User createUser(UserUpdateRequestDto userUpdateRequestDto) {
-        User user = userMapper.toEntity(userUpdateRequestDto);
+    public User createUser(UserRequestDto userRequestDto) {
+        User user = userMapper.toEntity(userRequestDto);
         return userRepository.save(user);
     }
 

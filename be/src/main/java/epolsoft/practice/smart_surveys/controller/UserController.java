@@ -2,7 +2,6 @@ package epolsoft.practice.smart_surveys.controller;
 
 import epolsoft.practice.smart_surveys.dto.UserRequestDto;
 import epolsoft.practice.smart_surveys.dto.UserResponseDto;
-import epolsoft.practice.smart_surveys.dto.UserUpdateRequestDto;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.mapper.UserMapper;
 import epolsoft.practice.smart_surveys.services.UserService;
@@ -36,8 +35,8 @@ public class UserController {
 
     @Operation(summary = "Изменение данных пользователя админом")
     @PostMapping("/update/{id}")
-    public void updateUser(@Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto, @PathVariable Long id) {
-        User user = userMapper.toEntity(userUpdateRequestDto);
+    public void updateUser(@Valid @RequestBody UserRequestDto userRequestDto, @PathVariable Long id) {
+        User user = userMapper.toEntity(userRequestDto);
         userService.updateUser(user, id);
     }
 
@@ -64,7 +63,7 @@ public class UserController {
 
     @Operation(summary = "Создать нового пользователя")
     @PostMapping("/new")
-    public UserResponseDto createUser(@Valid @RequestBody UserUpdateRequestDto userDto) {
+    public UserResponseDto createUser(@Valid @RequestBody UserRequestDto userDto) {
         return userMapper.toResponseDto(userService.createUser(userDto));
     }
 }
