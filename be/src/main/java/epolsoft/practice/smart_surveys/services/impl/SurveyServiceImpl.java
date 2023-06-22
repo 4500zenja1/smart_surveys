@@ -1,19 +1,22 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.dto.PollRequestDto;
+import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
+import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import epolsoft.practice.smart_surveys.exceptions.ValidationException;
+import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
-import epolsoft.practice.smart_surveys.services.AccessSurveyService;
-import epolsoft.practice.smart_surveys.services.AnswerOptionService;
-import epolsoft.practice.smart_surveys.services.PollService;
-import epolsoft.practice.smart_surveys.services.SurveyService;
-import epolsoft.practice.smart_surveys.services.UserService;
+import epolsoft.practice.smart_surveys.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,19 +27,61 @@ public class SurveyServiceImpl implements SurveyService {
     private SurveyRepository surveyRepository;
 
     @Autowired
+    private SurveyMapper surveyMapper;
+
+    @Autowired
+    private PollService pollService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private AccessSurveyService accessSurveyService;
 
     @Autowired
-    private PollService pollService;
-
-    @Autowired
     private AnswerOptionService answerOptionService;
 
     @Override
-    public void createSurvey(Survey survey) {
+    @Transactional
+    public Survey createSurvey(SurveyRequestDto surveyRequestDto) {
+
+        Survey survey = surveyMapper.toEntity(surveyRequestDto);
+
+        LocalDateTime openDate = survey.getOpenSurveyDate();
+        LocalDateTime closeDate = survey.getCloseSurveyDate();
+        LocalDateTime closeIterableDate = survey.getCloseSurveyIterableDate();
+        if (!openDate.isBefore(closeDate)) {
+            throw new ValidationException(
+                    "Дата завершения опроса должна быть строго после даты начала"
+            );
+        } else if (closeIterableDate.isAfter(closeDate)) {
+            throw new ValidationException(
+                    "Дата завершения итерации опроса не должна быть после даты окончания самого опроса"
+            );
+        } else if (closeIterableDate.isBefore(openDate)) {
+            throw new ValidationException(
+                    "Дата завершения итерации опроса не должна быть до даты начала самого опроса"
+            );
+        }
+
+        Integer timeAmount = survey.getTimeAmount();
+        if (timeAmount == 0 && !closeIterableDate.isEqual(closeDate)) {
+            throw new ValidationException(
+                    "Если интервал равен 0, то дата завершения итерации опроса должна совпадать с датой окончания самого опроса"
+            );
+        }
+
+        Long authorId = surveyRequestDto.getAuthorId();
+        User author = userService.getUserById(authorId);
+        survey.setAuthor(author);
+
+        List<PollRequestDto> pollRequestDtoList = surveyRequestDto.getPolls();
+        for (PollRequestDto pollRequestDto : pollRequestDtoList) {
+            Poll poll = pollService.createPoll(pollRequestDto);
+            poll.setSurvey(survey);
+        }
+
+        return surveyRepository.save(survey);
     }
 
     @Override

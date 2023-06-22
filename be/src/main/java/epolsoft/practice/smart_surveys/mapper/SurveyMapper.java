@@ -6,5 +6,5 @@ import epolsoft.practice.smart_surveys.entity.Survey;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface SurveyMapper extends GeneralMapper<SurveyResponseDto, Survey, SurveyRequestDto> {
+public interface SurveyMapper extends GeneralMapper<SurveyResponseDto, Survey, SurveyRequestDto>{
 }
