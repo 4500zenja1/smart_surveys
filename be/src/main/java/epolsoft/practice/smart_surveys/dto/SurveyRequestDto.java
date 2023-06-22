@@ -20,9 +20,9 @@ public class SurveyRequestDto {
     @Size(min = 1, max = 50, message = "{surveyTitle.wrongSize}")
     private String surveyTitle;
 
-    @Lob
-    @Nullable
-    private byte[] surveyDescriptionImage;
+    @NotBlank(message = "{surveyDescriptionImage.notBlank}")
+    @Size(min = 1, max = 200, message = "{surveyDescriptionImage.wrongSize}")
+    private String surveyDescriptionImage;
 
     @NotBlank(message = "{surveyDescription.notBlank}")
     @Size(min = 1, max = 200, message = "{surveyDescription.wrongSize}")
