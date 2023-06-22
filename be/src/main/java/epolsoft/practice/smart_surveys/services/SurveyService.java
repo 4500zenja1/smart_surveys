@@ -1,7 +1,6 @@
 package epolsoft.practice.smart_surveys.services;
 
 import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
-import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 
@@ -13,8 +12,6 @@ public interface SurveyService {
     Survey getSurveyById(Long surveyId);
 
     List<Survey> getAllSurveysByUserId(Long id);
-
-    List<AccessSurvey> getAllAccessSurveysByUserId(Long id);
 
     Survey getAllAnswersOptionById(Long id);
 

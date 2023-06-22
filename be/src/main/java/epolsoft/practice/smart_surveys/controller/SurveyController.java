@@ -3,11 +3,11 @@ package epolsoft.practice.smart_surveys.controller;
 import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyAnswerOptionMapper;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
+import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +26,9 @@ import java.util.List;
 public class SurveyController {
     @Autowired
     private SurveyService surveyService;
+
+    @Autowired
+    private AccessSurveyService accessSurveyService;
 
     @Autowired
     private UserVoteService userVoteService;
@@ -49,6 +52,13 @@ public class SurveyController {
         return surveyMapper.toResponseDto(survey);
     }
 
+    @Operation(summary = "Создать новый доступ к опросу")
+    @PostMapping("/access")
+    public AccessSurveyResponseDto createAccessSurvey(@Valid @RequestBody AccessSurveyRequestDto accessSurveyDto) {
+        AccessSurvey accessSurvey = accessSurveyService.createAccessSurvey(accessSurveyDto);
+        return accessSurveyMapper.toResponseDto(accessSurvey);
+    }
+
     @Operation(summary = "Получить опрос по id")
     @GetMapping("/{id}")
     public SurveyResponseDto getById(@PathVariable Long id) {
@@ -66,7 +76,7 @@ public class SurveyController {
     @Operation(summary = "Получить список доступных опросов пользователю по его id")
     @GetMapping("/available/{id}")
     public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id) {
-        List<AccessSurvey> accessSurveys = surveyService.getAllAccessSurveysByUserId(id);
+        List<AccessSurvey> accessSurveys = accessSurveyService.getAccessSurveysByUserId(id);
         return accessSurveyMapper.toResponseDtos(accessSurveys);
     }
 
