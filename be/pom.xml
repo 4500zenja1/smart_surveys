@@ -10,7 +10,7 @@
     </parent>
     <groupId>epolsoft.practice</groupId>
     <artifactId>smart_surveys</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>survey</name>
     <description>System for user opinions surveys</description>
     <properties>
