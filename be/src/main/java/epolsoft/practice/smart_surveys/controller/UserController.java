@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.controller;
 
+import epolsoft.practice.smart_surveys.dto.UserRequestDto;
 import epolsoft.practice.smart_surveys.dto.UserResponseDto;
 import epolsoft.practice.smart_surveys.dto.UserUpdateRequestDto;
 import epolsoft.practice.smart_surveys.entity.User;
@@ -59,5 +60,11 @@ public class UserController {
     public List<UserResponseDto> getAll() {
         List<User> users = userService.getAllUsers();
         return userMapper.toResponseDtos(users);
+    }
+
+    @Operation(summary = "Создать нового пользователя")
+    @PostMapping("/new")
+    public UserResponseDto createUser(@Valid @RequestBody UserUpdateRequestDto userDto) {
+        return userMapper.toResponseDto(userService.createUser(userDto));
     }
 }
