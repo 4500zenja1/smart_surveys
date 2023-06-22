@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PollRepository extends JpaRepository<Poll,Long> {
+public interface PollRepository extends JpaRepository<Poll, Long> {
     List<Poll> findAllBySurveyId(Long id);
 }

@@ -15,13 +15,16 @@ import java.util.List;
 public class Poll
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "survey_id", referencedColumnName = "id")
     private Survey survey;
+
+    @Column(name = "poll_image", columnDefinition = "bytea")
+    private byte[] pollDescriptionImage;
 
     @Column(name = "question_text", nullable = false, columnDefinition = "text")
     private String question;

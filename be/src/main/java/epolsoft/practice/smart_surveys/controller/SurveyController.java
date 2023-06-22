@@ -12,6 +12,7 @@ import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +39,15 @@ public class SurveyController {
     @Autowired
     private UserVoteMapper userVoteMapper;
 
-
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
+
+    @Operation(summary = "Создать новый опрос")
+    @PostMapping()
+    public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
+        Survey survey = surveyService.createSurvey(surveyDto);
+        return surveyMapper.toResponseDto(survey);
+    }
 
     @Operation(summary = "Получить опрос по id")
     @GetMapping("/{id}")
@@ -69,9 +76,6 @@ public class SurveyController {
         Survey survey = surveyService.getAllAnswersOptionById(id);
         return surveyAnswerOptionMapper.toResponseDto(survey);
     }
-
-
-
 
     @Operation(summary = "записать результаты опроса в бд")
     @PostMapping("/submit")

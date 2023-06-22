@@ -1,6 +1,5 @@
 package epolsoft.practice.smart_surveys.dto;
 
-import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.enums.PollType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

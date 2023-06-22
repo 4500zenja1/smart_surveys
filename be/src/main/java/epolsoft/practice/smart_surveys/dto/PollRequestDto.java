@@ -1,8 +1,11 @@
 package epolsoft.practice.smart_surveys.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.enums.PollType;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,18 +13,21 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PollRequestDto {
-    private Long id;
-
-    private Long surveyId;
-
-    private byte[] pollImage;
-
+    @NotEmpty
+    @Size(min = 1)
     private String question;
 
-    private PollType type;
+    @Lob
+    @Nullable
+    private byte[] pollDescriptionImage;
 
-    private List<AnswerOption> answers;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private PollType pollType;
+
+    @NotNull
+    private List<AnswerOptionRequestDto> answers;
 }
