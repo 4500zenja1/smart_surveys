@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccessSurveyRequestDto {
-    @NotNull
+    @NotNull(message = "{showResult.notNull}")
     private Boolean showResult;
 
-    @NotNull
+    @NotNull(message = "{surveyId.notNull}")
     private Long surveyId;
 
-    @NotNull
+    @NotNull(message = "{userId.notNull}")
     private Long userId;
 }

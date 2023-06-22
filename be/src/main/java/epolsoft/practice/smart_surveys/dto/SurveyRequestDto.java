@@ -16,41 +16,41 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SurveyRequestDto {
-    @NotEmpty
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "{surveyTitle.notBlank}")
+    @Size(min = 1, max = 50, message = "{surveyTitle.wrongSize}")
     private String surveyTitle;
 
     @Lob
     @Nullable
     private byte[] surveyDescriptionImage;
 
-    @NotEmpty
-    @Size(min = 1, max = 200)
+    @NotBlank(message = "{surveyDescription.notBlank}")
+    @Size(min = 1, max = 200, message = "{surveyDescription.wrongSize}")
     private String surveyDescription;
 
-    @NotNull
+    @NotNull(message = "{anonymity.notNull}")
     private Boolean anonymity;
 
-    @NotNull
-    @PositiveOrZero
+    @NotNull(message = "{timeAmount.notNull}")
+    @PositiveOrZero(message = "{timeAmount.notNegative}")
     private Integer timeAmount;
 
-    @NotNull
+    @NotNull(message = "{timeType.notNull}")
     @Enumerated(EnumType.STRING)
     private TimeType timeType;
 
-    @NotNull
+    @NotNull(message = "{openSurveyDate.notNull}")
     private LocalDateTime openSurveyDate;
 
-    @NotNull
+    @NotNull(message = "{closeSurveyDate.notNull}")
     private LocalDateTime closeSurveyDate;
 
-    @NotNull
+    @NotNull(message = "{closeSurveyIterableDate.notNull}")
     private LocalDateTime closeSurveyIterableDate;
 
-    @NotNull
+    @NotNull(message = "{authorId.notNull}")
     private Long authorId;
 
-    @NotNull
+    @NotNull(message = "{listPoll.notNull}")
     private List<PollRequestDto> polls;
 }
