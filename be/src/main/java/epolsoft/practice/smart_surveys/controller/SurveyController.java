@@ -12,6 +12,7 @@ import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,16 @@ public class SurveyController {
     private SurveyService surveyService;
 
     @Autowired
+    private UserVoteService userVoteService;
+
+    @Autowired
     private AccessSurveyMapper accessSurveyMapper;
 
     @Autowired
     private SurveyMapper surveyMapper;
+
+    @Autowired
+    private UserVoteMapper userVoteMapper;
 
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
