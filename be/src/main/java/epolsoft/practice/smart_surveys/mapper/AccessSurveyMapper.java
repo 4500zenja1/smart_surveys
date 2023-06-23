@@ -8,3 +8,4 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface AccessSurveyMapper extends GeneralMapper<AccessSurveyResponseDto, AccessSurvey, AccessSurveyRequestDto> {
 }
+

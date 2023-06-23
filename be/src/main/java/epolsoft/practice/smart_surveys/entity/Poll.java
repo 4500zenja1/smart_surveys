@@ -15,7 +15,7 @@ import java.util.List;
 public class Poll
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore
@@ -23,12 +23,15 @@ public class Poll
     @JoinColumn(name = "survey_id", referencedColumnName = "id")
     private Survey survey;
 
+    @Column(name = "poll_image", columnDefinition = "bytea")
+    private byte[] pollDescriptionImage;
+
     @Column(name = "question_text", nullable = false, columnDefinition = "text")
     private String question;
 
     @Column(name = "poll_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private PollType poll_type;
+    private PollType pollType;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     private List<AnswerOption> answers = new ArrayList<>();

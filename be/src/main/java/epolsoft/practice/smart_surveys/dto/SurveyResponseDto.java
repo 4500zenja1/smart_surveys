@@ -15,7 +15,7 @@ public class SurveyResponseDto {
 
     private String surveyTitle;
 
-    private byte[] surveyDescriptionImage;
+    private String surveyDescriptionImage;
 
     private String surveyDescription;
 
