@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserVoteRequestDto {
-    @NotNull
+    @NotNull(message = "{answerOptionId.notNull}")
     private Long answerOptionId;
 
-    @NotNull
+    @NotNull(message = "{userVoteText.notNull}")
     private String text;
 }

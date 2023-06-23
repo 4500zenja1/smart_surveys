@@ -11,21 +11,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
-    @NotBlank(message = "Имя не может отсутствовать")
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "{name.notBlank}")
+    @Size(min = 1, max = 50, message = "{name.wrongSize}")
     private String name;
 
-    @Email
-    @NotEmpty
-    @Size(min = 1, max = 30)
+    @NotBlank(message = "{email.notBlank}")
+    @Size(min = 1, max = 30, message = "{email.wrongSize}")
+    @Email(message = "{email.invalid}")
     private String email;
 
-    // потом можем определить дальнейшие ограничения для пароля (регулярку, длину и пр.)
-    @NotBlank(message = "Пароль не может отсутствовать")
-    @Size(min = 6, message = "Пароль должен быть больше 6 символов")
+    @NotBlank(message = "{password.notBlank}")
+    @Size(min = 6, message = "{password.wrongSize}")
     private String password;
 
-    @NotNull(message = "Роль не может отсутствовать")
+    @NotNull(message = "{roleType.notNull}")
     @Enumerated(EnumType.STRING)
     private RoleType role;
 }
