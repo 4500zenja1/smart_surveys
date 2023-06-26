@@ -21,8 +21,8 @@ public class Survey {
     @Column(name = "survey_title", nullable = false, length = 50)
     private String surveyTitle;
 
-    @Column(name = "survey_description_image", columnDefinition = "bytea")
-    private byte[] surveyDescriptionImage;
+    @Column(name = "survey_description_image", length = 200)
+    private String surveyDescriptionImage;
 
     @Column(name = "survey_description", length = 200)
     private String surveyDescription;

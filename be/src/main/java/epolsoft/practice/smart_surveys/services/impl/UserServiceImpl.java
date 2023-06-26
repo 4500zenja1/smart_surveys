@@ -1,7 +1,9 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.dto.UserRequestDto;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import epolsoft.practice.smart_surveys.mapper.UserMapper;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
 import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private UserRepository userRepository;
 
     @Override
-    public void createUser(User user) {
+    public User createUser(UserRequestDto userRequestDto) {
+        User user = userMapper.toEntity(userRequestDto);
+        return userRepository.save(user);
     }
 
     @Override

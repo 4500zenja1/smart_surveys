@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class SurveyResponseDto {
 
     private String surveyTitle;
 
-    private byte[] surveyDescriptionImage;
+    private String surveyDescriptionImage;
 
     private String surveyDescription;
 
@@ -26,5 +27,7 @@ public class SurveyResponseDto {
     private LocalDateTime closeSurveyDate;
 
     private UserResponseDto author;
+
+    private List<PollDto> polls;
 
 }
