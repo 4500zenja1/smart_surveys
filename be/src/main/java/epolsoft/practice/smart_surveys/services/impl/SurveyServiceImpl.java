@@ -2,23 +2,31 @@ package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.dto.PollRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
+import epolsoft.practice.smart_surveys.entity.AnswerOption;
 import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.entity.User;
+import epolsoft.practice.smart_surveys.entity.UserVote;
+import epolsoft.practice.smart_surveys.entity.enums.AnswerType;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
+import epolsoft.practice.smart_surveys.services.AccessSurveyService;
+import epolsoft.practice.smart_surveys.services.AnswerOptionService;
 import epolsoft.practice.smart_surveys.services.PollService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserService;
+import epolsoft.practice.smart_surveys.services.UserVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +43,15 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AccessSurveyService accessSurveyService;
+
+    @Autowired
+    private AnswerOptionService answerOptionService;
+
+    @Autowired
+    private UserVoteService userVoteService;
 
     @Override
     @Transactional
@@ -97,7 +114,30 @@ public class SurveyServiceImpl implements SurveyService {
     @Transactional(readOnly = true)
     public Survey getAllAnswersOptionById(Long id) {
         checkById(id);
-        return surveyRepository.findById(id).get();
+        Survey survey = surveyRepository.findById(id).get();
+        for (Poll poll : survey.getPolls()) {
+            Set<AnswerOption> temp = new HashSet<>();
+            for (AnswerOption answerOption : poll.getAnswers()) {
+                if (answerOption.getAnswerType().equals(AnswerType.OPEN)) {
+                    List<UserVote> userVotes = userVoteService.getAllVotesByAnswerId(answerOption.getId());
+                    for (UserVote user : userVotes) {
+                        AnswerOption userAnswer = new AnswerOption();
+                        userAnswer.setAnswerType(AnswerType.OPEN);
+                        userAnswer.setOption(user. getText());
+                        userAnswer.setVotedCount((int) userVotes.stream()
+                                .filter(userVote -> userVote.getText().equals(user.getText()))
+                                .count());
+                        userAnswer.setId(user.getAnswerOptionId());
+                        userAnswer.setOptionImage(answerOption.getOptionImage());
+                        userAnswer.setPoll(answerOption.getPoll());
+                        temp.add(userAnswer);
+                    }
+                }
+            }
+            poll.getAnswers().removeIf(answerOption -> answerOption.getAnswerType().equals(AnswerType.OPEN));
+            poll.getAnswers().addAll(temp);
+        }
+        return survey;
     }
 
     @Override

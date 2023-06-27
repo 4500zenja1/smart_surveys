@@ -1,16 +1,8 @@
-import React, {Component} from 'react';
-import { Menu, Avatar, Layout } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { Header } from '../components/header';
 
+export { App } from './App/'
+export { Login} from './Login/'
+export { Survey} from './Survey/'
+export { SurveyList} from './SurveyList/'
+export { UsersManager} from './UsersManager/'
+export { PersonalAccount} from './PersonalAccount/'
 
-class App extends Component {
-    render () {
-        return (
-                <Layout>
-                    <Header></Header>
-                </Layout>
-    )}
-}
-
-export default App
