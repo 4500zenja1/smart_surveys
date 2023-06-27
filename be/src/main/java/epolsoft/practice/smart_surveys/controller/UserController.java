@@ -6,6 +6,7 @@ import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.mapper.UserMapper;
 import epolsoft.practice.smart_surveys.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 @RequestMapping("/user")
+@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Пользователи", description = "Все методы для работы с пользователями")
 public class UserController {
     @Autowired
