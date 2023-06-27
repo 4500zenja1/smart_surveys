@@ -7,4 +7,4 @@ function Survey(){
     )
 }
 
-export {Survey}
+export { Survey }

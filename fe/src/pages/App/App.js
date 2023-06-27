@@ -6,9 +6,8 @@ import { Login, Survey, SurveyList, UsersManager, PersonalAccount} from '../'
 
 function App () {
         return (
-            <Layout>
                 <Router>
-                    <Header></Header>
+                    {/* <Header></Header> */}
 
                     <Routes>
                         
@@ -26,7 +25,6 @@ function App () {
 
                     </Routes>
                 </Router>
-            </Layout>
     )
 }
 

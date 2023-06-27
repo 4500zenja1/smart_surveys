@@ -1,48 +1,61 @@
-import React, {Component} from 'react';
-import { Menu, Avatar, Layout } from 'antd';
+import React from 'react';
+import { Menu, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 let name = "Segey Berr"
 
-const profileStyle = {
-    textAlign: "right",
+const space = {
     flex: "auto"
+}
+
+const verticalCenter = {
+    marginTop: "auto",
+    marginBottom: "auto"
 }
 
 const items = [
     {
         label: (   
-            <NavLink to="/home" >Smart Surveys</NavLink>            
+            <NavLink to="/home" style={{fontWeight: 'bold', fontSize: "x-large", color: "#ffffffdb"}}>Smart Surveys</NavLink>            
         ),
         key: 'smartsurveys',
+        style: verticalCenter
 
     },
     {
         label: (
             <NavLink to="/home" >Home</NavLink>
         ),
-        key: 'home'
+        key: 'home',
+        style: verticalCenter
+    },
+    
+    {
+        label: (
+            <span></span>
+        ),
+        key: 'space',
+        style: space
     },
     {
         label: (
             <NavLink to="/user/:userId">
                 <Avatar size="small" icon={<UserOutlined />}/>
+                <span> </span>
                 <span>{name}</span>               
             </NavLink>
         ),
         key: 'avatar',
-        style: profileStyle
+        style: verticalCenter
     }
 ]
 
 function Header() {
         return (
-            <Layout>                
-                
-                    <Menu theme = "dark" mode = "horizontal" items={items}/>
-                
-            </Layout>
+
+                    <Menu style = {{textAlign: "baseline"}} selectable={false} theme = "dark" mode = "horizontal" items={items}/>
+
 
                 // <header style = {{display: "inline"}}>
                 //     <h1 style = {{display: "inline"}}>Smart Surveys</h1>
@@ -55,4 +68,4 @@ function Header() {
     )
 }
 
-export {Header}
+export { Header }
