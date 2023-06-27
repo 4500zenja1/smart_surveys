@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,7 +47,6 @@ public class SurveyController {
 
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
-    @Secured("MODER")
     public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
         Survey survey = surveyService.createSurvey(surveyDto);
         return surveyMapper.toResponseDto(survey);
@@ -56,7 +54,6 @@ public class SurveyController {
 
     @Operation(summary = "Создать новый доступ к опросу")
     @PostMapping("/access")
-    @Secured("MODER")
     public AccessSurveyResponseDto createAccessSurvey(@Valid @RequestBody AccessSurveyRequestDto accessSurveyDto) {
         AccessSurvey accessSurvey = accessSurveyService.createAccessSurvey(accessSurveyDto);
         return accessSurveyMapper.toResponseDto(accessSurvey);
@@ -90,7 +87,7 @@ public class SurveyController {
         return surveyAnswerOptionMapper.toResponseDto(survey);
     }
 
-    @Operation(summary = "записать результаты опроса в бд")
+    @Operation(summary = "Записать результаты опроса в бд")
     @PostMapping("/submit")
     public List<UserVoteResponseDto> setUserVote(
             @RequestBody List<UserVoteRequestDto> userVoteDtos,
