@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 //import { Header } from '../components/header.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Login, Survey, SurveyList, UsersManager, PersonalAccount} from '../index.js'
+import { Login, Survey, SurveyList, UsersManager, PersonalAccount} from '../'
 
 function App () {
         return (

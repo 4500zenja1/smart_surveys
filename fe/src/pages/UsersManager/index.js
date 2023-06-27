@@ -1,2 +1,2 @@
 
-export { UserManager} from './UsersManager.js'
+export { UsersManager} from './UsersManager.js'
