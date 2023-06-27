@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
-//import { Header } from '../components/header.js';
+import { Header } from '../../components/index.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Login, Survey, SurveyList, UsersManager, PersonalAccount} from '../'
 
@@ -8,7 +8,7 @@ function App () {
         return (
             <Layout>
                 <Router>
-                    {/* <Header></Header> */}
+                    <Header></Header>
 
                     <Routes>
                         

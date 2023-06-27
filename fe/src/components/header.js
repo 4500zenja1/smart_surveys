@@ -5,6 +5,11 @@ import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
 
 let name = "Segey Berr"
 
+const profileStyle = {
+    textAlign: "right",
+    flex: "auto"
+}
+
 const items = [
     {
         label: (   
@@ -21,12 +26,13 @@ const items = [
     },
     {
         label: (
-            <NavLink to="/user/id:">
+            <NavLink to="/user/:userId">
                 <Avatar size="small" icon={<UserOutlined />}/>
-                <span>{name}</span>
+                <span>{name}</span>               
             </NavLink>
         ),
-        key: 'avatar'
+        key: 'avatar',
+        style: profileStyle
     }
 ]
 
