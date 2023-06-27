@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Menu, Avatar } from 'antd';
+import { Menu, Avatar, Layout } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 
@@ -30,12 +30,14 @@ const items = [
     }
 ]
 
-class Header extends Component {
-    render () {
+function Header() {
         return (
-                <Router>
+            <Layout>                
+                
                     <Menu theme = "dark" mode = "horizontal" items={items}/>
-                </Router>
+                
+            </Layout>
+
                 // <header style = {{display: "inline"}}>
                 //     <h1 style = {{display: "inline"}}>Smart Surveys</h1>
                 //     <h2 style = {{display: "inline"}}>Home</h2>
@@ -44,7 +46,7 @@ class Header extends Component {
                 //         <span>{name}</span>
                 //     </div>
                 // </header>
-    )}
+    )
 }
 
 export {Header}
