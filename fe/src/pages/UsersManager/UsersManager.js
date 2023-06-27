@@ -1,8 +1,8 @@
 
-function UserManager(){
+function UsersManager(){
     return (
         <div>UserManager</div>
     )
 }
 
-export {UserManager}
+export {UsersManager}
