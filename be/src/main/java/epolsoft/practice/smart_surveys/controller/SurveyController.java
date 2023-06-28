@@ -2,11 +2,8 @@ package epolsoft.practice.smart_surveys.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
 import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
-import epolsoft.practice.smart_surveys.entity.AnswerOption;
-import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.mapper.*;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
@@ -20,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.List;
 
 @RestController
@@ -48,9 +44,6 @@ public class SurveyController {
 
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
-
-    @Autowired
-    private AnswerOptionMapper answerOptionMapper;
 
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
