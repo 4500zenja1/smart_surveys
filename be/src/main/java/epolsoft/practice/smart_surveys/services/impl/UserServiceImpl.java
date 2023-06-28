@@ -8,16 +8,14 @@ import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.entity.enums.RoleType;
 import epolsoft.practice.smart_surveys.exceptions.AlreadyExistsException;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
-import epolsoft.practice.smart_surveys.mapper.UserMapper;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
-import epolsoft.practice.smart_surveys.security.entity.CustomUserDetails;
 import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,11 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private UserRepository userRepository;
+    @Lazy
     @Autowired
     AuthenticationManager authenticationManager;
+    @Lazy
     @Autowired
     PasswordEncoder encoder;
     @Autowired
@@ -41,10 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserRequestDto userRequestDto) {
-        String name = userRequestDto.getName();
-        if (userRepository.existsByName(name)) {
+        String username = userRequestDto.getUsername();
+        if (userRepository.existsByUsername(username)) {
             throw new AlreadyExistsException(
-                    String.format("Пользователь с именем %s уже существует", name)
+                    String.format("Пользователь с именем %s уже существует", username)
             );
         }
         String email = userRequestDto.getEmail();
@@ -56,7 +54,7 @@ public class UserServiceImpl implements UserService {
         String password = userRequestDto.getPassword();
 
         User user = new User();
-        user.setName(name);
+        user.setUsername(username);
         user.setEmail(email);
         user.setPassword(encoder.encode(password));
 
@@ -77,14 +75,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public JwtResponseDto authenticateUser(LoginRequestDto loginRequest) {
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        RoleType role = RoleType.valueOf(userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .toList().get(0));
+        User userDetails = (User) authentication.getPrincipal();
+        RoleType role = userDetails.getRole();
 
         JwtResponseDto jwtResponse = new JwtResponseDto();
         jwtResponse.setToken(jwt);
@@ -108,11 +105,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public User loadUserByUsername(String username) throws NotFoundException {
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Пользователь с именем %s не найден", username)
+                ));
+    }
+
+    @Override
+    @Transactional
     public void updateUser(User newUser, Long id) {
         User user = getUserById(id);
-        user.setName(newUser.getName());
+        user.setUsername(newUser.getUsername());
         user.setEmail(newUser.getEmail());
-        user.setName(newUser.getName());
+        user.setUsername(newUser.getUsername());
         user.setRole(newUser.getRole());
         user.setPassword(newUser.getPassword());
         userRepository.save(user);

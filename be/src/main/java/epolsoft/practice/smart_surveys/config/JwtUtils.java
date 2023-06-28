@@ -1,6 +1,6 @@
 package epolsoft.practice.smart_surveys.config;
 
-import epolsoft.practice.smart_surveys.security.entity.CustomUserDetails;
+import epolsoft.practice.smart_surveys.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -25,7 +25,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
+        User userPrincipal = (User) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequestDto {
-    @NotBlank(message = "{name.notBlank}")
-    @Size(min = 1, max = 50, message = "{name.wrongSize}")
-    private String name;
+    @NotBlank(message = "{username.notBlank}")
+    @Size(min = 1, max = 50, message = "{username.wrongSize}")
+    private String username;
 
     @NotBlank(message = "{password.notBlank}")
     @Size(min = 6, message = "{password.wrongSize}")

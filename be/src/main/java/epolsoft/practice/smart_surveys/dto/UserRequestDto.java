@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
-    @NotBlank(message = "{name.notBlank}")
-    @Size(min = 1, max = 50, message = "{name.wrongSize}")
-    private String name;
+    @NotBlank(message = "{username.notBlank}")
+    @Size(min = 1, max = 50, message = "{username.wrongSize}")
+    private String username;
 
     @NotBlank(message = "{email.notBlank}")
     @Size(min = 1, max = 30, message = "{email.wrongSize}")
