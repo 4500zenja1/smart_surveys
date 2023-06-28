@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AccessSurveyService {
     AccessSurvey createAccessSurvey(AccessSurveyRequestDto accessSurveyRequestDto);
-    List<AccessSurvey> getAccessSurveysByUserId(Long id);
+    List<AccessSurvey> getAccessSurveysByUser();
 }

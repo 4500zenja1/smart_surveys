@@ -11,10 +11,12 @@ import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/survey")
+@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Опросник", description = "Все методы для работы с опросником")
 public class SurveyController {
     @Autowired
@@ -46,6 +49,7 @@ public class SurveyController {
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
 
     @Operation(summary = "Создать новый опрос")
+    @PreAuthorize("hasAuthority('MODER')")
     @PostMapping()
     public SurveyResponseDto createSurvey(@Valid @RequestBody SurveyRequestDto surveyDto) {
         Survey survey = surveyService.createSurvey(surveyDto);
@@ -53,6 +57,7 @@ public class SurveyController {
     }
 
     @Operation(summary = "Создать новый доступ к опросу")
+    @PreAuthorize("hasAuthority('MODER')")
     @PostMapping("/access")
     public AccessSurveyResponseDto createAccessSurvey(@Valid @RequestBody AccessSurveyRequestDto accessSurveyDto) {
         AccessSurvey accessSurvey = accessSurveyService.createAccessSurvey(accessSurveyDto);
@@ -60,27 +65,31 @@ public class SurveyController {
     }
 
     @Operation(summary = "Получить опрос по id")
+    @PreAuthorize("hasAnyAuthority('USER', 'MODER', 'ADMIN')")
     @GetMapping("/{id}")
     public SurveyResponseDto getById(@PathVariable Long id) {
         Survey survey = surveyService.getSurveyById(id);
         return surveyMapper.toResponseDto(survey);
     }
 
-    @Operation(summary = "Получить список опросов по id автора")
-    @GetMapping("/author/{id}")
-    public List<SurveyResponseDto> getSurveys(@PathVariable Long id) {
-        List<Survey> surveys = surveyService.getAllSurveysByUserId(id);
+    @Operation(summary = "Получить список опросов за авторством текущего пользователя")
+    @PreAuthorize("hasAuthority('MODER')")
+    @GetMapping("/author")
+    public List<SurveyResponseDto> getSurveys() {
+        List<Survey> surveys = surveyService.getAllSurveysByUser();
         return surveyMapper.toResponseDtos(surveys);
     }
 
-    @Operation(summary = "Получить список доступных опросов пользователю по его id")
-    @GetMapping("/available/{id}")
-    public List<AccessSurveyResponseDto> getAccessSurveys(@PathVariable Long id) {
-        List<AccessSurvey> accessSurveys = accessSurveyService.getAccessSurveysByUserId(id);
+    @Operation(summary = "Получить список доступных текущему пользователю опросов")
+    @PreAuthorize("hasAnyAuthority('USER', 'MODER', 'ADMIN')")
+    @GetMapping("/available")
+    public List<AccessSurveyResponseDto> getAccessSurveys() {
+        List<AccessSurvey> accessSurveys = accessSurveyService.getAccessSurveysByUser();
         return accessSurveyMapper.toResponseDtos(accessSurveys);
     }
 
     @Operation(summary = "Получить данные по id опроса: количество голосов за каждый вариант ответа и процентное соотношение ответов. ")
+    @PreAuthorize("hasAnyAuthority('USER', 'MODER', 'ADMIN')")
     @GetMapping("/{id}/answers")
     public SurveyAnswerResponseDto getAnswersOption(@PathVariable Long id) {
         Survey survey = surveyService.getAllAnswersOptionById(id);
@@ -88,12 +97,11 @@ public class SurveyController {
     }
 
     @Operation(summary = "Записать результаты опроса в бд")
+    @PreAuthorize("hasAnyAuthority('USER', 'MODER', 'ADMIN')")
     @PostMapping("/submit")
     public List<UserVoteResponseDto> setUserVote(
-            @RequestBody List<UserVoteRequestDto> userVoteDtos,
-            @RequestParam(value = "user_id") Long userId) {
+            @RequestBody List<UserVoteRequestDto> userVoteDtos) {
         List<UserVoteResponseDto> userVoteResponseDto = userVoteMapper.toResponseDtos(userVoteDtos);
-        for(UserVoteResponseDto userVote : userVoteResponseDto) userVote.setUserId(userId);
         return userVoteService.createUserVotes(userVoteResponseDto);
     }
 }

@@ -14,6 +14,8 @@ public interface UserService extends UserDetailsService {
 
     JwtResponseDto authenticateUser(LoginRequestDto loginRequest);
 
+    User getCurrentUser();
+
     User getUserById(Long id);
 
     void checkById(Long id) throws NotFoundException;
@@ -23,7 +25,7 @@ public interface UserService extends UserDetailsService {
 
     void updateUser(User user,Long id);
 
-    void changePassword(Long id,String password);
+    void changePassword(String password);
 
     void deleteUser(Long id);
 }

@@ -85,6 +85,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Long userId = ((User)authentication.getPrincipal()).getId();
+        return userRepository.findById(userId).get();
+    }
+
+    @Override
     public User getUserById(Long id) {
         checkById(id);
         return userRepository.findById(id).get();
@@ -119,8 +127,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changePassword(Long id, String password) {
-        User user = getUserById(id);
+    public void changePassword(String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Long userId = ((User)authentication.getPrincipal()).getId();
+        User user = getUserById(userId);
+
         user.setPassword(password);
         userRepository.save(user);
     }
