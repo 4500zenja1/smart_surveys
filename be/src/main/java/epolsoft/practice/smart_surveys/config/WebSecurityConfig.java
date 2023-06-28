@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.config;
 
+import epolsoft.practice.smart_surveys.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
     @Autowired
-    private UserDetailsService customUserDetailsService;
+    private UserService userService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -34,7 +35,7 @@ public class WebSecurityConfig {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setUserDetailsService((UserDetailsService) userService);
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
