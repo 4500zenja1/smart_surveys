@@ -5,4 +5,4 @@ function SurveyList(){
     )
 }
 
-export {SurveyList}
+export { SurveyList }

@@ -1,2 +1,2 @@
 
-export { PersonalAccount} from './PersonalAccount.js'
+export { PersonalAccount } from './PersonalAccount.js'
