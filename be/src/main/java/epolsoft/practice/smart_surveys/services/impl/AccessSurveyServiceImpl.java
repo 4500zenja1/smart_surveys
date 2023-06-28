@@ -12,6 +12,8 @@ import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +55,11 @@ public class AccessSurveyServiceImpl implements AccessSurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AccessSurvey> getAccessSurveysByUserId(Long id) {
-        userService.checkById(id);
-        return accessSurveyRepository.findAllByUserId(id);
+    public List<AccessSurvey> getAccessSurveysByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        return accessSurveyRepository.findAllByUserId(userId);
     }
 }

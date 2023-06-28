@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDto {
+public class JwtResponseDto {
+
+    private String token;
+
+    private String type = "Bearer";
 
     private Long id;
 
@@ -17,5 +21,4 @@ public class UserResponseDto {
     private String email;
 
     private RoleType role;
-
 }

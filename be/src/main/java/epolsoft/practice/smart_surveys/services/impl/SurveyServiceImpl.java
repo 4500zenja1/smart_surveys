@@ -2,24 +2,21 @@ package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.dto.PollRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
-import epolsoft.practice.smart_surveys.entity.AnswerOption;
-import epolsoft.practice.smart_surveys.entity.Poll;
-import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.entity.User;
-import epolsoft.practice.smart_surveys.entity.UserVote;
+import epolsoft.practice.smart_surveys.entity.*;
 import epolsoft.practice.smart_surveys.entity.enums.AnswerType;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
-import epolsoft.practice.smart_surveys.services.AccessSurveyService;
-import epolsoft.practice.smart_surveys.services.AnswerOptionService;
 import epolsoft.practice.smart_surveys.services.PollService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,13 +42,10 @@ public class SurveyServiceImpl implements SurveyService {
     private UserService userService;
 
     @Autowired
-    private AccessSurveyService accessSurveyService;
-
-    @Autowired
-    private AnswerOptionService answerOptionService;
-
-    @Autowired
     private UserVoteService userVoteService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     @Transactional
@@ -105,9 +99,12 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Survey> getAllSurveysByUserId(Long id) {
-        userService.checkById(id);
-        return surveyRepository.findAllByAuthorId(id);
+    public List<Survey> getAllSurveysByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        return surveyRepository.findAllByAuthorId(userId);
     }
 
     @Override

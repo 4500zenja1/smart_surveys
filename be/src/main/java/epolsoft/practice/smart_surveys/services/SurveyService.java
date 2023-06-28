@@ -11,7 +11,7 @@ public interface SurveyService {
 
     Survey getSurveyById(Long surveyId);
 
-    List<Survey> getAllSurveysByUserId(Long id);
+    List<Survey> getAllSurveysByUser();
 
     Survey getAllAnswersOptionById(Long id);
 
