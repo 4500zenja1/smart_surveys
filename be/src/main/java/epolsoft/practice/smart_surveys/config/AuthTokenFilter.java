@@ -1,4 +1,4 @@
-package epolsoft.practice.smart_surveys.security.jwt;
+package epolsoft.practice.smart_surveys.config;
 
 import epolsoft.practice.smart_surveys.security.services.impl.CustomUserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;

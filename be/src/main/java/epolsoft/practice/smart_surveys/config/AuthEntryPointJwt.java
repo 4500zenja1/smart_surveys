@@ -1,4 +1,4 @@
-package epolsoft.practice.smart_surveys.security.jwt;
+package epolsoft.practice.smart_surveys.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

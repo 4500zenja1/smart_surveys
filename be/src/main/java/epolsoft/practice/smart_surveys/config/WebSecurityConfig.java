@@ -1,7 +1,5 @@
-package epolsoft.practice.smart_surveys.security;
+package epolsoft.practice.smart_surveys.config;
 
-import epolsoft.practice.smart_surveys.security.jwt.AuthEntryPointJwt;
-import epolsoft.practice.smart_surveys.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.services.impl;
 
+import epolsoft.practice.smart_surveys.config.JwtUtils;
 import epolsoft.practice.smart_surveys.dto.JwtResponseDto;
 import epolsoft.practice.smart_surveys.dto.LoginRequestDto;
 import epolsoft.practice.smart_surveys.dto.UserRequestDto;
@@ -10,7 +11,6 @@ import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.mapper.UserMapper;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
 import epolsoft.practice.smart_surveys.security.entity.CustomUserDetails;
-import epolsoft.practice.smart_surveys.security.jwt.JwtUtils;
 import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
