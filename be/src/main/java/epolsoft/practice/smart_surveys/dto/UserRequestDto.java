@@ -1,5 +1,7 @@
 package epolsoft.practice.smart_surveys.dto;
 
+import epolsoft.practice.smart_surveys.entity.enums.RoleType;
+import epolsoft.practice.smart_surveys.validators.EnumNamePattern;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,6 +26,6 @@ public class UserRequestDto {
     @Size(min = 6, message = "{password.wrongSize}")
     private String password;
 
-    @NotBlank(message = "{roleType.notNull}")
-    private String role;
+    @EnumNamePattern(regexp = "USER|MODER|ADMIN")
+    private RoleType role;
 }

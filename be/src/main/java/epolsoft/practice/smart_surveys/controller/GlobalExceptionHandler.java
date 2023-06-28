@@ -1,5 +1,6 @@
 package epolsoft.practice.smart_surveys.controller;
 
+import epolsoft.practice.smart_surveys.exceptions.AlreadyExistsException;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import jakarta.validation.ConstraintViolationException;
@@ -43,5 +44,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleConstraintViolationException(
             ConstraintViolationException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<String> handleException(
+            AlreadyExistsException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }

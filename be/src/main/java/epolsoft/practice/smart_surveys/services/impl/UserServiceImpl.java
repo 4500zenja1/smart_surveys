@@ -52,21 +52,13 @@ public class UserServiceImpl implements UserService {
             );
         }
         String password = userRequestDto.getPassword();
+        RoleType role = userRequestDto.getRole();
 
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(encoder.encode(password));
-
-        String role = userRequestDto.getRole().toUpperCase();
-        switch (role) {
-            case "ADMIN" -> user.setRole(RoleType.ADMIN);
-            case "MODER" -> user.setRole(RoleType.MODER);
-            case "USER" -> user.setRole(RoleType.USER);
-            default -> throw new NotFoundException(
-                    String.format("Не найдена роль с названием %s", role)
-            );
-        }
+        user.setRole(role);
 
         return userRepository.save(user);
     }

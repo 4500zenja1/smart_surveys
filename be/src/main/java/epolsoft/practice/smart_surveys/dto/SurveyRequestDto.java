@@ -1,9 +1,11 @@
 package epolsoft.practice.smart_surveys.dto;
 
 import epolsoft.practice.smart_surveys.entity.enums.TimeType;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import epolsoft.practice.smart_surveys.validators.EnumNamePattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,8 +37,7 @@ public class SurveyRequestDto {
     @PositiveOrZero(message = "{timeAmount.notNegative}")
     private Integer timeAmount;
 
-    @NotNull(message = "{timeType.notNull}")
-    @Enumerated(EnumType.STRING)
+    @EnumNamePattern(regexp = "SECOND|MINUTE|HOUR|DAY|WEEK|MONTH|YEAR")
     private TimeType timeType;
 
     @NotNull(message = "{openSurveyDate.notNull}")
