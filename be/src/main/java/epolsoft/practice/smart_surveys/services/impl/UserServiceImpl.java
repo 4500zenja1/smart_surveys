@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(newUser.getEmail());
         user.setUsername(newUser.getUsername());
         user.setRole(newUser.getRole());
-        user.setPassword(newUser.getPassword());
+        user.setPassword(encoder.encode(newUser.getPassword()));
         userRepository.save(user);
     }
 
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
         Long userId = ((User)authentication.getPrincipal()).getId();
         User user = getUserById(userId);
 
-        user.setPassword(password);
+        user.setPassword(encoder.encode(password));
         userRepository.save(user);
     }
 
