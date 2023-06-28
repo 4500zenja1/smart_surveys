@@ -10,4 +10,4 @@ function PersonalAccount(){
     )
 }
 
-export {PersonalAccount}
+export { PersonalAccount }

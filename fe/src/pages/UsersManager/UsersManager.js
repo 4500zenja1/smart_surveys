@@ -5,4 +5,4 @@ function UsersManager(){
     )
 }
 
-export {UsersManager}
+export { UsersManager }
