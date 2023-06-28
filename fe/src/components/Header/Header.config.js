@@ -1,13 +1,13 @@
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { NavLink } from "react-router-dom";
-import { space, verticalCenter } from "./Header.style.js";
+import { space, verticalCenter, logoStyle } from "./Header.style.js";
 
 
 const items = (name) => [
     {
         label: (   
-            <NavLink to="/home" style={{fontWeight: 'bold', fontSize: "x-large", color: "#ffffffdb"}}>Smart Surveys</NavLink>            
+            <NavLink to="/home" style={logoStyle}>Smart Surveys</NavLink>            
         ),
         key: 'smartsurveys',
         style: verticalCenter

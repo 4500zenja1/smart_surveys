@@ -5,6 +5,13 @@ const space = {
 const verticalCenter = {
     marginTop: "auto",
     marginBottom: "auto"
+
 }
 
-export { space, verticalCenter}
+const logoStyle = {
+    fontWeight: 'bold', 
+    fontSize: "x-large", 
+    color: "#ffffffdb"
+}
+
+export { space, verticalCenter, logoStyle}
