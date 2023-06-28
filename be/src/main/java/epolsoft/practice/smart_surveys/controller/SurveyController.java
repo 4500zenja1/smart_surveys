@@ -1,12 +1,14 @@
 package epolsoft.practice.smart_surveys.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
+import epolsoft.practice.smart_surveys.entity.AnswerOption;
+import epolsoft.practice.smart_surveys.entity.Poll;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
-import epolsoft.practice.smart_surveys.mapper.SurveyAnswerOptionMapper;
-import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
-import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
+import epolsoft.practice.smart_surveys.mapper.*;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
@@ -17,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 @RestController
@@ -44,6 +48,9 @@ public class SurveyController {
 
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
+
+    @Autowired
+    private AnswerOptionMapper answerOptionMapper;
 
     @Operation(summary = "Создать новый опрос")
     @PostMapping()
@@ -95,5 +102,12 @@ public class SurveyController {
         List<UserVoteResponseDto> userVoteResponseDto = userVoteMapper.toResponseDtos(userVoteDtos);
         for(UserVoteResponseDto userVote : userVoteResponseDto) userVote.setUserId(userId);
         return userVoteService.createUserVotes(userVoteResponseDto);
+    }
+
+    @Operation(summary = "Получить отчет ")
+    @GetMapping("/report/{id}")
+    public Document getReportAnswersOption(@PathVariable Long id, @RequestBody String path) throws DocumentException, FileNotFoundException, JsonProcessingException {
+        Survey survey = surveyService.getAllAnswersOptionById(id);
+        return surveyService.getReport(id, path, survey);
     }
 }
