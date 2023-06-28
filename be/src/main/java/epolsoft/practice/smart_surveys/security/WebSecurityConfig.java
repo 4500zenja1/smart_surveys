@@ -60,8 +60,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/auth/**", "/error").permitAll()
-                        .requestMatchers("/user/new", "user/update/**").hasRole("ADMIN")
-                        .requestMatchers("/survey", "/survey/access").hasRole("MODER")
+                        .requestMatchers("/user/new", "user/update/**").hasAuthority("ADMIN")
+                        .requestMatchers("/survey", "/survey/access").hasAuthority("MODER")
                         .anyRequest().authenticated()
                 );
 
