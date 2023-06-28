@@ -66,9 +66,7 @@ const Login = () => {
       </Form.Item>
     </Form>
         </Card>
- 
     </div>
-  
   );
 };
 
