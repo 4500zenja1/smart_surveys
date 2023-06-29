@@ -1,10 +1,25 @@
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { NavLink } from "react-router-dom";
-import { space, verticalCenter, logoStyle } from "./Header.style.js";
+import {Avatar} from 'antd';
+import {UserOutlined} from '@ant-design/icons';
+import {NavLink} from "react-router-dom";
+import {logoStyle, space, verticalCenter} from "./Header.style.js";
+import {Trans, useTranslation} from "react-i18next";
 
+function LanguageSelector() {
+    const { i18n } = useTranslation();
 
-const items = (name) => [
+    const changeLanguage = (event) => {
+        i18n.changeLanguage(event.target.value);
+    };
+
+    return (
+        <select onChange={changeLanguage}>
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+        </select>
+    );
+}
+
+const items = (name, t) => [
     {
         label: (   
             <NavLink to="/home" style={logoStyle}>Smart Surveys</NavLink>            
@@ -15,7 +30,7 @@ const items = (name) => [
     },
     {
         label: (
-            <NavLink to="/home" >Home</NavLink>
+            <NavLink to="/home" ><Trans t={t}>home</Trans></NavLink>
         ),
         key: 'home',
         style: verticalCenter
@@ -37,6 +52,13 @@ const items = (name) => [
             </NavLink>
         ),
         key: 'avatar',
+        style: verticalCenter
+    },
+    {
+        label: (
+            LanguageSelector()
+        ),
+        key: 'change_languages',
         style: verticalCenter
     }
 ]

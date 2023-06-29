@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './pages';
+import {App} from './pages';
 import reportWebVitals from './reportWebVitals';
 import './index.css'
+
+import './i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
