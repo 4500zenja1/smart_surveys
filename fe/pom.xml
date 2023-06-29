@@ -8,9 +8,9 @@
         <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    
+
     <groupId>epolsoft.practice</groupId>
-    <artifactId>smart_surveys</artifactId>
+    <artifactId>smart_surveys_fe</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>survey</name>
     <description>System for user opinions surveys</description>
