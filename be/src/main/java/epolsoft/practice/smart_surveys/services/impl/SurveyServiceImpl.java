@@ -2,18 +2,26 @@ package epolsoft.practice.smart_surveys.services.impl;
 
 import epolsoft.practice.smart_surveys.dto.PollRequestDto;
 import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
-import epolsoft.practice.smart_surveys.entity.*;
+import epolsoft.practice.smart_surveys.entity.AnswerOption;
+import epolsoft.practice.smart_surveys.entity.Poll;
+import epolsoft.practice.smart_surveys.entity.Survey;
+import epolsoft.practice.smart_surveys.entity.User;
+import epolsoft.practice.smart_surveys.entity.UserVote;
 import epolsoft.practice.smart_surveys.entity.enums.AnswerType;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
 import epolsoft.practice.smart_surveys.exceptions.ValidationException;
 import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
 import epolsoft.practice.smart_surveys.repository.SurveyRepository;
+import epolsoft.practice.smart_surveys.services.AccessSurveyService;
+import epolsoft.practice.smart_surveys.services.AnswerOptionService;
 import epolsoft.practice.smart_surveys.services.PollService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -99,12 +108,12 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Survey> getAllSurveysByUser() {
+    public Page<Survey> getAllSurveysByUser(Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Long userId = ((User)authentication.getPrincipal()).getId();
 
-        return surveyRepository.findAllByAuthorId(userId);
+        return surveyRepository.findAllByAuthorId(userId,pageable);
     }
 
     @Override
@@ -112,11 +121,14 @@ public class SurveyServiceImpl implements SurveyService {
     public Survey getAllAnswersOptionById(Long id) {
         checkById(id);
         Survey survey = surveyRepository.findById(id).get();
+        List<UserVote> userVotes = userVoteService.getAllVotes()
+                .stream()
+                .filter(userVote -> userVote.getText() != null)
+                .collect(Collectors.toList());
         for (Poll poll : survey.getPolls()) {
             Set<AnswerOption> temp = new HashSet<>();
             for (AnswerOption answerOption : poll.getAnswers()) {
                 if (answerOption.getAnswerType().equals(AnswerType.OPEN)) {
-                    List<UserVote> userVotes = userVoteService.getAllVotesByAnswerId(answerOption.getId());
                     for (UserVote user : userVotes) {
                         AnswerOption userAnswer = new AnswerOption();
                         userAnswer.setAnswerType(AnswerType.OPEN);

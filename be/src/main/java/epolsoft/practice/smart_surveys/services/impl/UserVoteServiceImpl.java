@@ -45,7 +45,7 @@ public class UserVoteServiceImpl implements UserVoteService {
     }
 
     @Override
-    public List<UserVote> getAllVotesByAnswerId(Long id) {
-        return userVoteRepository.findAllByAnswerOptionId(id);
+    public List<UserVote> getAllVotes(){
+        return userVoteRepository.findAll();
     }
 }

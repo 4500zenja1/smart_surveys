@@ -8,10 +8,13 @@ import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.entity.enums.RoleType;
 import epolsoft.practice.smart_surveys.exceptions.AlreadyExistsException;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import epolsoft.practice.smart_surveys.mapper.UserMapper;
 import epolsoft.practice.smart_surveys.repository.UserRepository;
 import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +41,7 @@ public class UserServiceImpl implements UserService {
     JwtUtils jwtUtils;
 
     @Override
+    @Transactional
     public User createUser(UserRequestDto userRequestDto) {
         String username = userRequestDto.getUsername();
         if (userRepository.existsByUsername(username)) {
@@ -85,22 +89,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        Long userId = ((User)authentication.getPrincipal()).getId();
+        Long userId = ((User) authentication.getPrincipal()).getId();
         return userRepository.findById(userId).get();
     }
 
     @Override
+    @Transactional
     public User getUserById(Long id) {
         checkById(id);
         return userRepository.findById(id).get();
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    @Transactional
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override
@@ -130,7 +136,7 @@ public class UserServiceImpl implements UserService {
     public void changePassword(String password) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Long userId = ((User)authentication.getPrincipal()).getId();
+        Long userId = ((User) authentication.getPrincipal()).getId();
         User user = getUserById(userId);
 
         user.setPassword(encoder.encode(password));

@@ -8,5 +8,5 @@ import java.util.List;
 public interface UserVoteService {
     List<UserVoteResponseDto> createUserVotes(List<UserVoteResponseDto> userVotes);
 
-    List<UserVote> getAllVotesByAnswerId(Long id);
+    List<UserVote> getAllVotes();
 }
