@@ -12,6 +12,8 @@
     <version>1.0.1-SNAPSHOT</version>
     <artifactId>smart_surveys_fe</artifactId>
 
+    <packaging>pom</packaging>
+
     <build>
         <plugins>
             <plugin>
