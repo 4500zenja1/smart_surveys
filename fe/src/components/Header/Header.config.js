@@ -2,22 +2,8 @@ import {Avatar} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import {NavLink} from "react-router-dom";
 import {logoStyle, space, verticalCenter} from "./Header.style.js";
-import {Trans, useTranslation} from "react-i18next";
-
-function LanguageSelector() {
-    const { i18n } = useTranslation();
-
-    const changeLanguage = (event) => {
-        i18n.changeLanguage(event.target.value);
-    };
-
-    return (
-        <select onChange={changeLanguage}>
-            <option value="en">EN</option>
-            <option value="ru">RU</option>
-        </select>
-    );
-}
+import {Trans} from "react-i18next";
+import {LanguageSelector} from "./LanguageSelector.js"
 
 const items = (name, t) => [
     {
