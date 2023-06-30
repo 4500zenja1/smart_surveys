@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SurveyResponseDto {
-
+public class SurveyWithPollsDto {
     private Long id;
 
     private String surveyTitle;
@@ -27,5 +27,5 @@ public class SurveyResponseDto {
 
     private UserResponseDto author;
 
-
+    private List<PollDto> polls;
 }

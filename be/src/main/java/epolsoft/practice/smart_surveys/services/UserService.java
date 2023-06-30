@@ -5,9 +5,9 @@ import epolsoft.practice.smart_surveys.dto.LoginRequestDto;
 import epolsoft.practice.smart_surveys.dto.UserRequestDto;
 import epolsoft.practice.smart_surveys.entity.User;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.List;
 
 public interface UserService extends UserDetailsService {
     User createUser(UserRequestDto userRequestDto);
@@ -20,7 +20,8 @@ public interface UserService extends UserDetailsService {
 
     void checkById(Long id) throws NotFoundException;
 
-    List<User> getAllUsers();
+    Page<User> getAllUsers(Pageable pageable);
+
     User loadUserByUsername(String username) throws NotFoundException;
 
     void updateUser(User user,Long id);

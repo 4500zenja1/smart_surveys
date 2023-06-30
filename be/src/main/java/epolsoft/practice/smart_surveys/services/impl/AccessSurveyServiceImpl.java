@@ -12,6 +12,8 @@ import epolsoft.practice.smart_surveys.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -55,11 +57,11 @@ public class AccessSurveyServiceImpl implements AccessSurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AccessSurvey> getAccessSurveysByUser() {
+    public Page<AccessSurvey> getAccessSurveysByUser(Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Long userId = ((User)authentication.getPrincipal()).getId();
 
-        return accessSurveyRepository.findAllByUserId(userId);
+        return accessSurveyRepository.findAllByUserId(userId,pageable);
     }
 }
