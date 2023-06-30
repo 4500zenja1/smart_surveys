@@ -12,8 +12,8 @@
     <description>System for user opinions surveys</description>
 
     <modules>
-        <module>smart_surveys_fe</module>
-        <module>smart_surveys_be</module>
+        <module>fe</module>
+        <module>be</module>
     </modules>
 
 </project>
