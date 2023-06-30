@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>epolsoft.practice</groupId>
-    <artifactId>smart_surveys_fe</artifactId>
+    <parent>
+        <groupId>epolsoft.practice</groupId>
+        <artifactId>smart_surveys</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+
     <version>1.0.1-SNAPSHOT</version>
-    <name>survey</name>
-    <description>System for user opinions surveys</description>
+    <artifactId>smart_surveys_fe</artifactId>
 
     <build>
         <plugins>
