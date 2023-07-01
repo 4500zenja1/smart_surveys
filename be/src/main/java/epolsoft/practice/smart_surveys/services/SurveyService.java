@@ -3,6 +3,9 @@ package epolsoft.practice.smart_surveys.services;
 import epolsoft.practice.smart_surveys.dto.SurveyRequestDto;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.exceptions.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface SurveyService {
@@ -10,7 +13,7 @@ public interface SurveyService {
 
     Survey getSurveyById(Long surveyId);
 
-    List<Survey> getAllSurveysByUserId(Long id);
+    Page<Survey> getAllSurveysByUser(Pageable pageable);
 
     Survey getAllAnswersOptionById(Long id);
 

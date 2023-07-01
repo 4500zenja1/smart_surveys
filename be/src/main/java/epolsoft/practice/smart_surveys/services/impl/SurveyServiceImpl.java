@@ -20,12 +20,21 @@ import epolsoft.practice.smart_surveys.services.UserService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,13 +53,10 @@ public class SurveyServiceImpl implements SurveyService {
     private UserService userService;
 
     @Autowired
-    private AccessSurveyService accessSurveyService;
-
-    @Autowired
-    private AnswerOptionService answerOptionService;
-
-    @Autowired
     private UserVoteService userVoteService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     @Transactional
@@ -104,9 +110,12 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Survey> getAllSurveysByUserId(Long id) {
-        userService.checkById(id);
-        return surveyRepository.findAllByAuthorId(id);
+    public Page<Survey> getAllSurveysByUser(Pageable pageable) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        return surveyRepository.findAllByAuthorId(userId,pageable);
     }
 
     @Override
@@ -114,11 +123,14 @@ public class SurveyServiceImpl implements SurveyService {
     public Survey getAllAnswersOptionById(Long id) {
         checkById(id);
         Survey survey = surveyRepository.findById(id).get();
+        List<UserVote> userVotes = userVoteService.getAllVotes()
+                .stream()
+                .filter(userVote -> userVote.getText() != null)
+                .collect(Collectors.toList());
         for (Poll poll : survey.getPolls()) {
             Set<AnswerOption> temp = new HashSet<>();
             for (AnswerOption answerOption : poll.getAnswers()) {
                 if (answerOption.getAnswerType().equals(AnswerType.OPEN)) {
-                    List<UserVote> userVotes = userVoteService.getAllVotesByAnswerId(answerOption.getId());
                     for (UserVote user : userVotes) {
                         AnswerOption userAnswer = new AnswerOption();
                         userAnswer.setAnswerType(AnswerType.OPEN);

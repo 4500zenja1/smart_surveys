@@ -1,10 +1,14 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Typography,Card } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import {LockOutlined, UserOutlined} from '@ant-design/icons';
+import {Button, Card, Form, Input, Typography} from 'antd';
+import {useNavigate} from 'react-router-dom';
+import {Trans, useTranslation} from "react-i18next";
+
 const {Title,Text} = Typography;
 
 const Login = () => {
     let navigate = useNavigate();
+    const { t } = useTranslation();
+
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
     let path = '/home';
@@ -30,7 +34,9 @@ const Login = () => {
     >
         <Form.Item >
         <Title level = {2}>Smart Survey</Title>
-        <Text type = "secondary">The SMARTEST survey creation tool</Text>
+            <Text type = "secondary">
+                <Trans t={t}>login.description</Trans>
+            </Text>
         </Form.Item>
         
       <Form.Item
@@ -38,7 +44,7 @@ const Login = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: <Trans t={t}>login.username_message</Trans>,
           },
         ]}
       >
@@ -49,7 +55,7 @@ const Login = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: <Trans t={t}>login.password_message</Trans>
           },
         ]}
       >
@@ -61,7 +67,7 @@ const Login = () => {
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+            <Trans t={t}>login.button</Trans>
         </Button>
       </Form.Item>
     </Form>

@@ -1,12 +1,10 @@
 package epolsoft.practice.smart_surveys.dto;
 
 import epolsoft.practice.smart_surveys.entity.enums.AnswerType;
+import epolsoft.practice.smart_surveys.validators.EnumNamePattern;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +22,6 @@ public class AnswerOptionRequestDto {
     @Nullable
     private byte[] optionImage;
 
-    @NotNull(message = "{answerType.notNull}")
-    @Enumerated(EnumType.STRING)
+    @EnumNamePattern(regexp = "OPEN|CLOSED")
     private AnswerType answerType;
 }

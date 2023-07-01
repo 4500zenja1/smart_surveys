@@ -1,10 +1,11 @@
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { NavLink } from "react-router-dom";
-import { space, verticalCenter, logoStyle } from "./Header.style.js";
+import {Avatar} from 'antd';
+import {UserOutlined} from '@ant-design/icons';
+import {NavLink} from "react-router-dom";
+import {logoStyle, space, verticalCenter} from "./Header.style.js";
+import {Trans} from "react-i18next";
+import {LanguageSelector} from "./LanguageSelector.js"
 
-
-const items = (name) => [
+const items = (name, t) => [
     {
         label: (   
             <NavLink to="/home" style={logoStyle}>Smart Surveys</NavLink>            
@@ -15,7 +16,7 @@ const items = (name) => [
     },
     {
         label: (
-            <NavLink to="/home" >Home</NavLink>
+            <NavLink to="/home" ><Trans t={t}>home</Trans></NavLink>
         ),
         key: 'home',
         style: verticalCenter
@@ -37,6 +38,13 @@ const items = (name) => [
             </NavLink>
         ),
         key: 'avatar',
+        style: verticalCenter
+    },
+    {
+        label: (
+            LanguageSelector()
+        ),
+        key: 'change_languages',
         style: verticalCenter
     }
 ]
