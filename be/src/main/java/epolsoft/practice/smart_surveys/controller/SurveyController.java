@@ -1,12 +1,12 @@
 package epolsoft.practice.smart_surveys.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itextpdf.text.*;
 import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
 import epolsoft.practice.smart_surveys.mapper.*;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
+import epolsoft.practice.smart_surveys.services.FileDownloadService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,8 +15,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.List;
 
 @RestController
@@ -41,6 +42,9 @@ public class SurveyController {
 
     @Autowired
     private UserVoteMapper userVoteMapper;
+
+    @Autowired
+    private FileDownloadService fileDownloadService;
 
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
@@ -99,8 +103,8 @@ public class SurveyController {
 
     @Operation(summary = "Получить отчет ")
     @GetMapping("/report/{id}")
-    public Document getReportAnswersOption(@PathVariable Long id, @RequestBody String path) throws DocumentException, FileNotFoundException, JsonProcessingException {
-        Survey survey = surveyService.getAllAnswersOptionById(id);
-        return surveyService.getReport(id, path, survey);
+    public ModelAndView getReportAnswersOption(@PathVariable Long id) throws DocumentException, IOException {
+        fileDownloadService.getReport(id);
+        return new ModelAndView("redirect:/downloadFile/surveyReport_" + id + ".pdf");
     }
 }
