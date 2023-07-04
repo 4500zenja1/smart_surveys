@@ -1,15 +1,17 @@
-import React from 'react';
 import {Menu} from 'antd';
 import {items} from './Header.config.js'
 import {useTranslation} from "react-i18next";
-
-let name ="Sergey Berr"
+import { AuthContext } from "../../context/AuthContext"
+import { useContext } from "react";
 
 function Header() {
         const { t } = useTranslation();
 
+        const  context  = useContext(AuthContext);
+
+
         return (
-            <Menu selectable={false} theme = "dark" mode = "horizontal" items={items(name, t)}/>
+            <Menu selectable={false} theme = "dark" mode = "horizontal" items={items(context.currentUser.username, t)}/>
     )
 }
 

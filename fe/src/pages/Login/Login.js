@@ -1,26 +1,44 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Card, Form, Input, Typography} from 'antd';
-import {useNavigate} from 'react-router-dom';
 import {Trans, useTranslation} from "react-i18next";
-
+import { AuthContext } from '../../context/AuthContext';
+import { useState,useContext} from 'react';
+import Layout from '../../components/Layout/LayOut';
+import {useNavigate} from 'react-router-dom';
 const {Title,Text} = Typography;
 
 const Login = () => {
-    let navigate = useNavigate();
-    const { t } = useTranslation();
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    let path = '/home';
-    navigate(path)
-    };
+    const { t } = useTranslation();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const { login } = useContext(AuthContext);
+    let navigate = useNavigate();
+
+
+    const handleLogin = async () => {
+     const success = await login(username, password);
+     console.log(success);
+     if(success ){
+        navigate("/home");
+     }
+     else {
+        navigate("/login");
+     }
+      };
+
+      const onFinish =()=>{
+        handleLogin();
+      };
   return (
-    <div 
+  <Layout >
+       <div
       style={{
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
+      color: "blue"
     }}>
     <Card style = {{width: 500}}>
 
@@ -38,7 +56,7 @@ const Login = () => {
                 <Trans t={t}>login.description</Trans>
             </Text>
         </Form.Item>
-        
+
       <Form.Item
         name="username"
         rules={[
@@ -48,7 +66,11 @@ const Login = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input
+        prefix={<UserOutlined className="site-form-item-icon" />}
+         placeholder="Username"
+         value={username}
+         onChange={(e)=>setUsername(e.target.value)} />
       </Form.Item>
       <Form.Item
         name="password"
@@ -63,16 +85,23 @@ const Login = () => {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+          >
             <Trans t={t}>login.button</Trans>
         </Button>
       </Form.Item>
     </Form>
         </Card>
     </div>
+  </Layout>
   );
 };
 
