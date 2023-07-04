@@ -1,5 +1,7 @@
 package epolsoft.practice.smart_surveys.controller;
 
+import com.itextpdf.text.*;
+import epolsoft.practice.smart_surveys.dto.*;
 import epolsoft.practice.smart_surveys.dto.AccessSurveyRequestDto;
 import epolsoft.practice.smart_surveys.dto.AccessSurveyResponseDto;
 import epolsoft.practice.smart_surveys.dto.SurveyAnswerResponseDto;
@@ -10,11 +12,9 @@ import epolsoft.practice.smart_surveys.dto.UserVoteRequestDto;
 import epolsoft.practice.smart_surveys.dto.UserVoteResponseDto;
 import epolsoft.practice.smart_surveys.entity.AccessSurvey;
 import epolsoft.practice.smart_surveys.entity.Survey;
-import epolsoft.practice.smart_surveys.mapper.AccessSurveyMapper;
-import epolsoft.practice.smart_surveys.mapper.SurveyAnswerOptionMapper;
-import epolsoft.practice.smart_surveys.mapper.SurveyMapper;
-import epolsoft.practice.smart_surveys.mapper.UserVoteMapper;
+import epolsoft.practice.smart_surveys.mapper.*;
 import epolsoft.practice.smart_surveys.services.AccessSurveyService;
+import epolsoft.practice.smart_surveys.services.FileDownloadService;
 import epolsoft.practice.smart_surveys.services.SurveyService;
 import epolsoft.practice.smart_surveys.services.UserVoteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +23,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
 import java.util.List;
 
 @RestController
@@ -60,6 +63,9 @@ public class SurveyController {
 
     @Autowired
     private UserVoteMapper userVoteMapper;
+
+    @Autowired
+    private FileDownloadService fileDownloadService;
 
     @Autowired
     private SurveyAnswerOptionMapper surveyAnswerOptionMapper;
@@ -120,5 +126,12 @@ public class SurveyController {
             @RequestBody List<UserVoteRequestDto> userVoteDtos) {
         List<UserVoteResponseDto> userVoteResponseDto = userVoteMapper.toResponseDtos(userVoteDtos);
         return userVoteService.createUserVotes(userVoteResponseDto);
+    }
+
+    @Operation(summary = "Получить отчет ")
+    @GetMapping("/report/{id}")
+    public ModelAndView getReportAnswersOption(@PathVariable Long id) throws DocumentException, IOException {
+        fileDownloadService.getReport(id);
+        return new ModelAndView("redirect:/downloadFile/surveyReport_" + id + ".pdf");
     }
 }
