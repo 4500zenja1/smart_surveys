@@ -6,5 +6,9 @@
     "username_message": "Please enter your username!",
     "password_message": "Please enter your password!",
     "button": "Log in"
+  },
+  "error":{
+    "message":"Error:User not Found",
+    "description":"User with this userName and password is not found"
   }
 }

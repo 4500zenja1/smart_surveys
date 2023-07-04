@@ -2,12 +2,13 @@ import React from 'react';
 
 import { useLocation } from 'react-router-dom';
 import { Header } from '../Header';
+import noHeader from '../../constants/noHeader';
 
 const Layout = ({ children }) => {
   const router = useLocation();
 
   const { pathname } = router;
-  const noHeader = ['/login'];
+  
 
   return (
     <div>

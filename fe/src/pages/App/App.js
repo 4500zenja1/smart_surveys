@@ -7,9 +7,8 @@ import Layout from '../../components/Layout/LayOut';
 function App () {
 
         return (
-            <AuthProvider>
-
                 <Router>
+                            <AuthProvider>
                     <Layout>
                         <Routes>
 
@@ -27,9 +26,9 @@ function App () {
 
                         </Routes>
                     </Layout>
-
+                    </AuthProvider>
                 </Router>
-            </AuthProvider>
+           
     )
 }
 
