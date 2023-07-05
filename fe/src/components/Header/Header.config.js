@@ -5,10 +5,11 @@ import {logoStyle, space, verticalCenter} from "./Header.style.js";
 import {Trans} from "react-i18next";
 import {LanguageSelector} from "./LanguageSelector.js"
 
-const items = (name, t) => [
+const items = (username, t) => [
     {
-        label: (   
-            <NavLink to="/home" style={logoStyle}>Smart Surveys</NavLink>            
+
+        label: (
+            <NavLink to="/home" style={logoStyle}>Smart Surveys</NavLink>
         ),
         key: 'smartsurveys',
         style: verticalCenter
@@ -21,7 +22,15 @@ const items = (name, t) => [
         key: 'home',
         style: verticalCenter
     },
-    
+    {
+        label:(
+            <NavLink to = "/login"><Trans t = {t}>logout</Trans></NavLink>
+
+        ),
+        key:'logout',
+
+    },
+
     {
         label: (
             <span></span>
@@ -34,7 +43,7 @@ const items = (name, t) => [
             <NavLink to="/user/:userId">
                 <Avatar size="small" icon={<UserOutlined />}/>
                 <span> </span>
-                <span>{name}</span>               
+                <span>{username}</span>
             </NavLink>
         ),
         key: 'avatar',
